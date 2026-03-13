@@ -1,26 +1,282 @@
-@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-color: #00ffcc;
+  --accent-color: #ff007f;
+  --bg-color: #121212;
+  --bg-gradient: radial-gradient(circle at top, #1e1e1e 0%, #121212 70%);
+  --surface-color: #1e1e1e;
+  --text-color: #f0f0f0;
+  --text-secondary: #aaaaaa;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  line-height: 1.6;
+  /* Adicionado para garantir que o fundo ocupe pelo menos a tela toda */
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Header / Hero Section */
+header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 2rem 2rem;
+  position: relative;
+}
+
+/* Espaço para a foto com a correção do corte */
+.profile-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 4px solid var(--accent-color);
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+  margin-bottom: 1.5rem;
+  animation: fadeInDown 1s ease-out;
+  background-color: #2a2a2a;
+  object-fit: cover;
+  object-position: top;
+}
+
+header h1 {
+  font-size: 4rem;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  animation: fadeInDown 1s ease-out;
+}
+
+header p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin-bottom: 0.5rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.location {
+  font-size: 1rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+/* Botões Sociais */
+.social-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeIn 1.5s ease-out;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.btn-instagram {
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+}
+
+.btn-tiktok {
+  background-color: #000;
+  border: 1px solid #00ffcc;
+}
+
+.btn-twitch {
+  background-color: #9146ff;
+}
+
+.btn-email {
+  background-color: #333;
+  border: 1px solid #fff;
+}
+
+.nav-links {
+  margin-top: 3rem;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.nav-links a:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(0, 255, 204, 0.05);
+}
+
+/* Sections */
+section {
+  padding: 5rem 10%;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--primary-color);
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.creator-section h2 {
+  border-color: var(--accent-color);
+}
+
+/* Grid Layouts */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: var(--surface-color);
+  padding: 2rem;
+  border-radius: 10px;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+  border-top: 4px solid var(--primary-color);
+}
+
+.card.creator-card {
+  border-top-color: var(--accent-color);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.card.creator-card h3 {
+  color: var(--accent-color);
+}
+
+.card.tech-card h3 {
+  color: var(--primary-color);
+}
+
+/* Estilo extra para os Reels */
+.reel-box {
+  width: 100%;
+  max-width: 400px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+footer {
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--surface-color);
+  color: var(--text-secondary);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 3rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .profile-img {
+    width: 140px;
+    height: 140px;
+  }
 }

@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Portfólio Leandro Silva | Tech & Content Creator
 
-## Getting Started
+Bem-vindo ao repositório do meu portfólio pessoal! Este projeto é uma aplicação moderna desenvolvida para centralizar minha trajetória como Analista de Sistemas, Especialista em UX/IoT e Criador de Conteúdo.
 
-First, run the development server:
+🌐 **Status do Projeto:** Em atualização contínua.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 👨‍💻 Sobre o Projeto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Este site foi construído para ser o meu cartão de visitas digital. Ele mescla o meu lado desenvolvedor — focado em resolver problemas com código e arquiteturas modernas — com o meu perfil autêntico de criador de conteúdo (@leandrosof), onde abordo tecnologia, lifestyle, rotina de treinos e minhas gameplays.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🛠️ Tecnologias Utilizadas
+* **Next.js (App Router):** Framework React utilizando SSR/SSG para máxima performance e indexação (SEO) no Google.
+* **React & TypeScript:** Componentização inteligente e tipagem estática para um código seguro, limpo e escalável.
+* **Tailwind CSS & CSS Modules:** Estilização responsiva, Dark Mode customizado e animações fluidas.
+* **Estratégia de Micro-Ferramentas:** Criação de subpáginas utilitárias (ex: Gerador de Link de WhatsApp) focadas em atrair tráfego orgânico.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏆 Destaques do Portfólio
 
-## Learn More
+O site detalha minha atuação em projetos de alto impacto socioambiental e conquistas em hackathons:
+* **Sustentabilidade e Dados:** Atuação no desenvolvimento de plataformas como **SOMAI** (dados científicos sobre Terras Indígenas), **CCAL** (calculadora de carbono), **ACI**, **SOMUC**, **ATER Paidégua** e **CNUC**.
+* **Hackathons:** * 🥇 1º Lugar no Hackathon Zé Gotinha (Campus Party 2019) com a equipe Metadata.
+  * 🥈 2º Lugar com o aplicativo **Guardiã DF** (Foco na segurança das mulheres - 2025).
 
-To learn more about Next.js, take a look at the following resources:
+## 📱 Integração com Redes Sociais
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O portfólio possui uma seção dedicada aos meus conteúdos mais recentes do Instagram, além de links diretos para a minha comunidade:
+* [Instagram](https://www.instagram.com/leandrosof/)
+* [TikTok](https://www.tiktok.com/@leandro_sof)
+* [Twitch](https://www.twitch.tv/leandrosof)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ⚙️ Como executar localmente
 
-## Deploy on Vercel
+Siga os passos abaixo para rodar o projeto no seu ambiente de desenvolvimento:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Faça o clone deste repositório:
+   ```bash
+   git clone [https://github.com/leandrosof/leandrosof.git](https://github.com/leandrosof/leandrosof.git)
