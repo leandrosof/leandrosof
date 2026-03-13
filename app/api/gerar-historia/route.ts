@@ -9,7 +9,6 @@ export async function POST(req: Request) {
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    // Prompt ajustado para soar como um jovem digitando no Discord
     const prompt = `
       Você é um jovem brasileiro preenchendo a história do seu personagem para uma Whitelist de GTA RP.
       
