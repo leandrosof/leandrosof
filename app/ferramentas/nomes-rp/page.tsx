@@ -227,7 +227,6 @@ export default function RPGenerator() {
                   style={{
                     color: "#eee",
                     fontSize: "0.95rem",
-                    marginTop: "10px",
                     whiteSpace: "pre-wrap",
                   }}
                 >

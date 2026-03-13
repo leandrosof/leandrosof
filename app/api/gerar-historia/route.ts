@@ -1,58 +1,76 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Groq } from "groq-sdk";
 import { NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(req: Request) {
   try {
     const { nome, idade, genero, alinhamento } = await req.json();
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "system",
+          content: `Você é um escritor de histórias para GTA RP.
+          REGRAS DE OURO:
+          - Escreva NO MÍNIMO 4 parágrafos detalhados.
+          - Use gírias de internet (vc, pq, pra, ta, q) e NUNCA use acento em palavras curtas.
+          - O texto deve ser realista, sem palavras difíceis.
+          - Respeite o gênero ${genero}.
+          - IMPORTANTE: Nunca aperte ENTER dentro das aspas do JSON. Use \\n\\n para parágrafos.`,
+        },
+        {
+          role: "user",
+          content: `Crie uma história detalhada para: Nome: ${nome}, Idade: ${idade}, Gênero: ${genero}, Lado: ${alinhamento}. 
+          
+          ESTRUTURA:
+          1. Infância e família na cidade antiga.
+          2. O que fazia da vida (profissão ou crime).
+          3. O momento exato que deu tudo errado (a grande treta).
+          4. A chegada na cidade nova e o sentimento de recomeço.
 
-    const prompt = `
-      Você é um jovem brasileiro preenchendo a história do seu personagem para uma Whitelist de GTA RP.
-      
-      INSTRUÇÕES DE ESTILO:
-      - Escreva em PRIMEIRA PESSOA ("Eu...").
-      - Use um vocabulário SIMPLES e DIRETO, mas desenvolva BEM a história.
-      - PROIBIDO: Palavras literárias como "perspectivas", "diante de", "estabilidade", "recomeço", "tranquilidade".
-      - PROIBIDO: Gírias forçadas como "coroa", "grana", "tá ligado", "mermão".
-      - Estilo: Pense em alguém explicando o passado e os motivos para se mudar de cidade.
-      
-      Parâmetros:
-      Nome: ${nome || "Nome comum brasileiro"}
-      Idade: ${idade || "Entre 18 e 25"}
-      Gênero: ${genero}
-      Objetivo: ${alinhamento} (Se Ilegal: faliu, tem dívidas na cidade antiga ou quer dinheiro rápido. Se Legal: quer um emprego honesto, ser mecânico ou entrar para a polícia).
+          Retorne APENAS o JSON: {"nome": "${nome}", "idade": "${idade}", "historia": "texto longo aqui"}`,
+        },
+      ],
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.8,
+    });
 
-      REGRAS DE TAMANHO E CONTEÚDO:
-      1. A história DEVE ter entre 3 a 4 parágrafos bem desenvolvidos.
-      2. Conte de onde o personagem veio, o que fazia antes e qual foi o problema que o fez sair de lá.
-      3. Termine explicando o motivo de estar chegando nesta cidade nova hoje.
+    let content = completion.choices[0]?.message?.content || "";
 
-      RETORNE APENAS JSON:
-      {
-        "nome": "O nome",
-        "idade": "A idade",
-        "historia": "A história completa com 3 a 4 parágrafos (use \\n\\n para separar as quebras de linha)"
-      }
-    `;
+    // 1. Extrai apenas o que está entre as chaves para evitar lixo
+    const jsonMatch = content.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error("JSON não encontrado");
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    let jsonString = jsonMatch[0];
 
-    const cleanJson = responseText
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim();
-    const personagem = JSON.parse(cleanJson);
+    // 2. BLINDAGEM CONTRA "Bad control character":
+    // Remove quebras de linha reais e caracteres de controle que quebram o JSON.parse
+    jsonString = jsonString
+      .replace(/\n/g, "\\n") // Transforma enter real em símbolo \n
+      .replace(/\r/g, "\\r")
+      .replace(/\t/g, "\\t")
+      .replace(/[\u0000-\u001F\u007F-\u009F]/g, ""); // Remove caracteres invisíveis
 
-    return NextResponse.json(personagem);
+    // 3. Tenta o Parse, se falhar, limpa mais uma vez as aspas duplas internas
+    try {
+      const validJson = JSON.parse(jsonString);
+
+      // validJson.historia = validJson.historia.replace(/\n{3,}/g, "\n\n").trim();
+      return NextResponse.json(validJson);
+    } catch (e) {
+      console.log("Erro no parse, tentando fallback manual");
+      // Se a IA quebrar o JSON, a gente reconstrói o objeto na mão
+      return NextResponse.json({
+        nome: nome,
+        idade: idade,
+        historia:
+          content.split('"historia":')[1]?.replace(/[{}"]/g, "").trim() ||
+          "Erro ao formatar história.",
+      });
+    }
   } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: "Erro ao gerar história" },
-      { status: 500 },
-    );
+    console.error("Erro Groq:", error);
+    return NextResponse.json({ error: "Erro na API" }, { status: 500 });
   }
 }
