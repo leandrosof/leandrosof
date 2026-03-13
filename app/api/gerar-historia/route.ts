@@ -14,24 +14,27 @@ export async function POST(req: Request) {
       
       INSTRUÇÕES DE ESTILO:
       - Escreva em PRIMEIRA PESSOA ("Eu...").
-      - Use um vocabulário SIMPLES e DIRETO. 
+      - Use um vocabulário SIMPLES e DIRETO, mas desenvolva BEM a história.
       - PROIBIDO: Palavras literárias como "perspectivas", "diante de", "estabilidade", "recomeço", "tranquilidade".
       - PROIBIDO: Gírias forçadas como "coroa", "grana", "tá ligado", "mermão".
-      - Estilo: Pense em alguém explicando por que mudou de cidade para um conhecido. 
+      - Estilo: Pense em alguém explicando o passado e os motivos para se mudar de cidade.
       
       Parâmetros:
       Nome: ${nome || "Nome comum brasileiro"}
       Idade: ${idade || "Entre 18 e 25"}
       Gênero: ${genero}
-      Objetivo: ${alinhamento} (Se Ilegal: faliu, perdeu emprego ou quer dinheiro rápido. Se Legal: quer um emprego de mecânico, motorista ou entrar para a polícia).
+      Objetivo: ${alinhamento} (Se Ilegal: faliu, tem dívidas na cidade antiga ou quer dinheiro rápido. Se Legal: quer um emprego honesto, ser mecânico ou entrar para a polícia).
 
-      Exemplo de tom: "Eu morava no interior e trabalhava com meu pai, mas as coisas ficaram difíceis lá e a oficina fechou. Decidi vir para cá para tentar arrumar um emprego de mecânico e conseguir me manter sozinho."
+      REGRAS DE TAMANHO E CONTEÚDO:
+      1. A história DEVE ter entre 3 a 4 parágrafos bem desenvolvidos.
+      2. Conte de onde o personagem veio, o que fazia antes e qual foi o problema que o fez sair de lá.
+      3. Termine explicando o motivo de estar chegando nesta cidade nova hoje.
 
       RETORNE APENAS JSON:
       {
         "nome": "O nome",
         "idade": "A idade",
-        "historia": "A história em 2 parágrafos curtos"
+        "historia": "A história completa com 3 a 4 parágrafos (use \\n\\n para separar as quebras de linha)"
       }
     `;
 
