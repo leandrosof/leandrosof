@@ -84,7 +84,7 @@ export default function FerramentasHub() {
         </Link>
 
         <Link
-          href="/ferramentas/nomes-rp"
+          href="/ferramentas/como-passar-whitelist-gta-rp"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <Card
