@@ -55,7 +55,7 @@ export default function FerramentasHub() {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <Card
-            type="creator"
+            type="tech"
             title="🔥 Calculadora de TMB"
             description="Descubra seu gasto calórico basal e diário para ajustar a dieta."
           />
@@ -66,7 +66,7 @@ export default function FerramentasHub() {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <Card
-            type="creator"
+            type="tech"
             title="🏋️ Carga Máxima (1RM)"
             description="Calcule seu limite de força em exercícios de musculação."
           />
@@ -88,7 +88,7 @@ export default function FerramentasHub() {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <Card
-            type="creator"
+            type="tech"
             title="📝 Gerador de História (GTA RP)"
             description="Crie a história do seu personagem na hora para passar na Whitelist."
           />
@@ -99,7 +99,7 @@ export default function FerramentasHub() {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <Card
-            type="creator"
+            type="tech"
             title="🧠 Quiz IA Infinito"
             description="Gere um quiz de 15 perguntas inéditas sobre qualquer assunto na hora."
           />
@@ -110,7 +110,7 @@ export default function FerramentasHub() {
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <Card
-            type="creator"
+            type="tech"
             title="🥩 Calculadora de Churrasco"
             description="Descubra a quantidade exata de carne, bebidas e carvão para não faltar nada no seu evento."
           />
@@ -118,7 +118,7 @@ export default function FerramentasHub() {
 
         {/* Espaço para as próximas ferramentas */}
         <Card
-          type="default"
+          type="creator"
           title="🚧 Em breve..."
           description="Mais ferramentas focadas em engajamento e lifestyle estão sendo desenvolvidas. Fique de olho!"
         />
