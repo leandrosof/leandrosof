@@ -25,7 +25,7 @@ export async function POST(req: Request) {
           content: `Responde ai: ${pergunta}`,
         },
       ],
-      model: "llama-3.1-8b-instant", // O brabo que a gente já testou
+      model: "llama-3.3-70b-versatile", // O brabo que a gente já testou
       temperature: 0.6, // Temperatura mais baixa pra ele não inventar moda
     });
 
