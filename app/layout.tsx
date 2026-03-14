@@ -5,6 +5,16 @@ export const metadata = {
   title: "Leandro Silva | Criador de Conteúdo & Tech",
   description:
     "Portfólio oficial de Leandro Silva. Criador de conteúdo, Analista de Sistemas e desenvolvedor.",
+  icons: {
+    icon: [
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -15,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
+        {/* Scripts do Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YGVYMEH4Q9"
           strategy="afterInteractive"
@@ -27,8 +38,6 @@ export default function RootLayout({
             gtag('config', 'G-YGVYMEH4Q9');
           `}
         </Script>
-
-        {/* O Header saiu daqui! */}
 
         <main>{children}</main>
 
