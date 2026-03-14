@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       ],
       model: "llama-3.1-8b-instant",
       temperature: 0.8,
-      max_tokens: 4000,
+      max_tokens: 1000,
       response_format: { type: "json_object" }
     });
 
