@@ -115,6 +115,17 @@ export default function FerramentasHub() {
             description="Descubra a quantidade exata de carne, bebidas e carvão para não faltar nada no seu evento."
           />
         </Link>
+        
+        <Link
+          href="/ferramentas/calculadora-salario-liquido"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Card
+            type="tech"
+            title="💸 Calculadora Salário Líquido"
+            description="Saiba exatamente quanto vai sobrar na conta com as tabelas de INSS e IRRF de 2026."
+          />
+        </Link>
 
         {/* Espaço para as próximas ferramentas */}
         <Card
