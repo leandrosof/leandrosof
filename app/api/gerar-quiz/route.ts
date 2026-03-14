@@ -30,7 +30,7 @@ export async function POST(req: Request) {
           content: `Tema do Quiz: ${tema}. Crie 15 perguntas (misture fáceis, médias e difíceis).`
         }
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       temperature: 0.8,
       max_tokens: 4000, // Isso garante que ele não corte no meio e entregue as 15!
       response_format: { type: "json_object" }

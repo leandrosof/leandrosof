@@ -32,7 +32,7 @@ export async function POST(req: Request) {
           Retorne APENAS o JSON: {"nome": "${nome}", "idade": "${idade}", "historia": "texto longo aqui"}`,
         },
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
       temperature: 0.8,
     });
 
