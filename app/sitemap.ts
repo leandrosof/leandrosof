@@ -21,12 +21,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === "" ? 1.0 : 0.8,
   }));
 
-  routes.push({
-    url: `${baseUrl}/ferramentas/nomes-rp`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.9,
-  });
-
   return routes;
 }
