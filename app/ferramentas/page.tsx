@@ -94,6 +94,17 @@ export default function FerramentasHub() {
           />
         </Link>
 
+        <Link
+          href="/ferramentas/quiz-ia"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Card
+            type="creator"
+            title="🧠 Quiz IA Infinito"
+            description="Gere um quiz de 15 perguntas inéditas sobre qualquer assunto na hora."
+          />
+        </Link>
+
         {/* Espaço para as próximas ferramentas */}
         <Card
           type="default"
