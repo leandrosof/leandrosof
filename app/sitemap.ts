@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/ferramentas/box-shadow",
     "/ferramentas/quiz-ia",
     "/ferramentas/como-passar-whitelist-gta-rp",
+    "/ferramentas/como-calcular-churrasco",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

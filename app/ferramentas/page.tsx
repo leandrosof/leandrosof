@@ -105,6 +105,17 @@ export default function FerramentasHub() {
           />
         </Link>
 
+        <Link
+          href="/ferramentas/como-calcular-churrasco"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Card
+            type="creator"
+            title="🥩 Calculadora de Churrasco"
+            description="Descubra a quantidade exata de carne, bebidas e carvão para não faltar nada no seu evento."
+          />
+        </Link>
+
         {/* Espaço para as próximas ferramentas */}
         <Card
           type="default"
