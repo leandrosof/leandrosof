@@ -7,42 +7,68 @@ export async function POST(req: Request) {
   try {
     const { tema } = await req.json();
 
+    // Data dinâmica para a IA saber exatamente em que ano estamos
+    const dataAtual = new Date().toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+
     const completion = await groq.chat.completions.create({
       messages: [
         {
           role: "system",
-          content: `Você é um mestre de quiz super criativo. 
-          Gere um quiz de EXATAMENTE 15 perguntas sobre o tema solicitado. Não pare até gerar as 15.
+          content: `Você é um criador de quiz rigorosamente factual e super atualizado.
+          CONTEXTO: Hoje é dia ${dataAtual}. 
+          
+          REGRAS CRÍTICAS DE PRECISÃO:
+          1. Baseie-se APENAS em fatos reais, históricos e comprovados.
+          2. NUNCA invente leis, eventos, datas ou lançamentos fictícios.
+          3. SE VOCÊ NÃO TIVER 100% DE CERTEZA SOBRE UM FATO, NÃO CRIE A PERGUNTA. Escolha outro fato sobre o tema.
+          4. Não faça perguntas sobre o futuro ou especulações.
+          5. Evite usar a palavra 'atual' para perguntar sobre cargos políticos (presidentes, ministros), prefira perguntar sobre fatos históricos e mandatos que já terminaram.
+          5. Para perguntas sobre história e cultura do Brasil, redobre a atenção para não reproduzir mitos populares. Priorize o rigor e o consenso histórico oficial.
+
+          Gere um quiz de EXATAMENTE 10 perguntas sobre o tema solicitado. As curiosidades devem ser objetivas (máximo 2 frases).
+          
           Você DEVE retornar APENAS um JSON estrito no seguinte formato:
           {
             "perguntas": [
               {
-                "pergunta": "Qual é a pergunta?",
-                "opcoes": ["Opção A", "Opção B", "Opção C", "Opção D"],
-                "resposta_correta": "Texto exato da Opção correta",
-                "curiosidade": "Uma curiosidade rápida de 1 linha sobre a resposta."
+                "pergunta": "Frase da pergunta?",
+                "opcoes": ["A", "B", "C", "D"],
+                "resposta_correta": "Texto da correta",
+                "curiosidade": "Curiosidade real e comprovada."
               }
             ]
           }`
         },
         {
           role: "user",
-          content: `Tema do Quiz: ${tema}. Crie 15 perguntas.`
+          content: `Tema: ${tema}. Gere as 15 perguntas factuais.`
         }
       ],
-      model: "llama-3.1-8b-instant",
-      temperature: 0.8,
-      max_tokens: 1000,
+      // O motor V8 da Groq: inteligente, culto e menos propenso a inventar moda
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.2, // Temperatura fria = foco na verdade e na lógica
+      max_tokens: 2000, // Espaço de sobra para as 15 perguntas e boas curiosidades
       response_format: { type: "json_object" }
     });
 
-    const data = JSON.parse(completion.choices[0]?.message?.content || "{}");
-    return NextResponse.json(data);
+    const content = completion.choices[0]?.message?.content || "{}";
+
+    try {
+      const data = JSON.parse(content);
+      return NextResponse.json(data);
+    } catch (e) {
+      // Se por algum milagre o texto for cortado, o site não quebra
+      return NextResponse.json({ error: "Conteúdo muito extenso para o limite de tokens." }, { status: 422 });
+    }
+
   } catch (error: any) {
-    // Captura o erro de limite da Groq e avisa o Frontend
-    if (error?.status === 429 || error?.message?.includes('429')) {
+    if (error?.status === 429) {
       return NextResponse.json({ error: "Limite atingido" }, { status: 429 });
     }
-    return NextResponse.json({ error: "Erro ao gerar quiz" }, { status: 500 });
+    return NextResponse.json({ error: "Erro interno" }, { status: 500 });
   }
 }
