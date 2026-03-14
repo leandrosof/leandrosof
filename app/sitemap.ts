@@ -12,6 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/ferramentas/tmb",
     "/ferramentas/1rm",
     "/ferramentas/box-shadow",
+    "/ferramentas/quiz-ia",
+    "/ferramentas/nomes-rp",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
