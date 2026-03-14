@@ -38,7 +38,11 @@ export async function POST(req: Request) {
 
     const data = JSON.parse(completion.choices[0]?.message?.content || "{}");
     return NextResponse.json(data);
-  } catch (error) {
+  } catch (error: any) {
+    // 👇 VERIFICAÇÃO DE LIMITE DE REQUISIÇÕES (RATE LIMIT)
+    if (error?.status === 429 || error?.message?.includes('429')) {
+      return NextResponse.json({ error: "Limite diário atingido" }, { status: 429 });
+    }
     return NextResponse.json({ error: "Erro ao gerar quiz" }, { status: 500 });
   }
 }
