@@ -27,21 +27,21 @@ export async function POST(req: Request) {
         },
         {
           role: "user",
-          content: `Tema do Quiz: ${tema}. Crie 15 perguntas (misture fáceis, médias e difíceis).`
+          content: `Tema do Quiz: ${tema}. Crie 15 perguntas.`
         }
       ],
       model: "llama-3.1-8b-instant",
       temperature: 0.8,
-      max_tokens: 4000, // Isso garante que ele não corte no meio e entregue as 15!
+      max_tokens: 4000,
       response_format: { type: "json_object" }
     });
 
     const data = JSON.parse(completion.choices[0]?.message?.content || "{}");
     return NextResponse.json(data);
   } catch (error: any) {
-    // 👇 VERIFICAÇÃO DE LIMITE DE REQUISIÇÕES (RATE LIMIT)
+    // Captura o erro de limite da Groq e avisa o Frontend
     if (error?.status === 429 || error?.message?.includes('429')) {
-      return NextResponse.json({ error: "Limite diário atingido" }, { status: 429 });
+      return NextResponse.json({ error: "Limite atingido" }, { status: 429 });
     }
     return NextResponse.json({ error: "Erro ao gerar quiz" }, { status: 500 });
   }
