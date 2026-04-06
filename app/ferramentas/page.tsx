@@ -115,7 +115,7 @@ export default function FerramentasHub() {
             description="Descubra a quantidade exata de carne, bebidas e carvão para não faltar nada no seu evento."
           />
         </Link>
-        
+
         <Link
           href="/ferramentas/calculadora-salario-liquido"
           style={{ textDecoration: "none", color: "inherit" }}
@@ -127,6 +127,13 @@ export default function FerramentasHub() {
           />
         </Link>
 
+        <Link href="/ferramentas/gerenciador-de-racha" style={{ textDecoration: "none", color: "inherit" }}>
+          <Card
+            type="tech"
+            title="⚽ Racha Manager Pro"
+            description="Organize seu futebol com sorteio justo, catraca de espera e contador de partidas."
+          />
+        </Link>
         {/* Espaço para as próximas ferramentas */}
         <Card
           type="creator"
