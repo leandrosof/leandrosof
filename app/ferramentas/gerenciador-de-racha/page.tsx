@@ -6,8 +6,8 @@ type Jogador = {
     nome: string;
     partidas: number;
     status: "timeA" | "timeB" | "fila" | "fora";
-    dataAdd: number;
-    posicao: number;
+    ordemChegada: number; // Matrícula fixa do jogador (quem chegou primeiro no clube)
+    posicao: number;      // Senha dinâmica da fila/quadra (1, 2, 3, 4...)
 };
 
 export default function GerenciadorRacha() {
@@ -17,12 +17,11 @@ export default function GerenciadorRacha() {
     const [jogadorSelecionado, setJogadorSelecionado] = useState<Jogador | null>(null);
     const [tamanhoTime, setTamanhoTime] = useState(7);
 
-    // Trava de segurança para não salvar lista vazia por cima dos dados reais no refresh
     const carregadoRef = useRef(false);
 
-    // 1. CARREGAR DADOS (Roda ao abrir a página)
+    // 1. CARREGAR DADOS
     useEffect(() => {
-        const chave = "@racha-persistente-vfinal";
+        const chave = "@racha-indexado-v1"; // Mudei a chave para não dar conflito com o cache antigo
         const dadosSalvos = localStorage.getItem(chave);
 
         if (dadosSalvos) {
@@ -38,19 +37,23 @@ export default function GerenciadorRacha() {
         carregadoRef.current = true;
     }, []);
 
-    // 2. SALVAR DADOS (Roda sempre que algo muda)
+    // 2. SALVAR DADOS
     useEffect(() => {
         if (carregadoRef.current) {
-            const chave = "@racha-persistente-vfinal";
+            const chave = "@racha-indexado-v1";
             localStorage.setItem(chave, JSON.stringify({ lista: jogadores, hist: historico, tamanho: tamanhoTime }));
         }
     }, [jogadores, historico, tamanhoTime]);
+
+    // Helpers de numeração sequencial
+    const getMaiorPosicao = (lista: Jogador[]) => lista.length > 0 ? Math.max(...lista.map(j => j.posicao)) : 0;
+    const getMaiorOrdem = (lista: Jogador[]) => lista.length > 0 ? Math.max(...lista.map(j => j.ordemChegada)) : 0;
 
     // Listas Filtradas
     const filaEspera = jogadores.filter(j => j.status === "fila").sort((a, b) => a.posicao - b.posicao);
     const timeA = jogadores.filter(j => j.status === "timeA").sort((a, b) => a.posicao - b.posicao);
     const timeB = jogadores.filter(j => j.status === "timeB").sort((a, b) => a.posicao - b.posicao);
-    const jogadoresFora = jogadores.filter(j => j.status === "fora").sort((a, b) => a.dataAdd - b.dataAdd);
+    const jogadoresFora = jogadores.filter(j => j.status === "fora").sort((a, b) => a.ordemChegada - b.ordemChegada);
 
     const salvarHistorico = () => {
         setHistorico(prev => [...prev, jogadores].slice(-20));
@@ -69,39 +72,91 @@ export default function GerenciadorRacha() {
             alert(`⚠️ O jogador "${nome}" já está na lista!`);
             return;
         }
+        
         salvarHistorico();
-        const agora = Date.now();
-        setJogadores([...jogadores, { id: agora.toString(), nome, partidas: 0, status: "fila", dataAdd: agora, posicao: agora }]);
+        
+        // Pega os maiores números atuais e soma 1
+        const proximaOrdem = getMaiorOrdem(jogadores) + 1;
+        const proximaPosicao = getMaiorPosicao(jogadores) + 1;
+        
+        // Gera um ID limpo de texto
+        const novoId = Math.random().toString(36).substring(2, 10);
+
+        setJogadores([...jogadores, { 
+            id: novoId, 
+            nome, 
+            partidas: 0, 
+            status: "fila", 
+            ordemChegada: proximaOrdem, 
+            posicao: proximaPosicao 
+        }]);
         setNomeInput("");
     };
 
     const registrarFimDeJogo = (timeDerrotadoId: "timeA" | "timeB") => {
         salvarHistorico();
         const timeVencedorId = timeDerrotadoId === "timeA" ? "timeB" : "timeA";
+        
+        // Os perdedores ordenados pelo menor índice (os que estão lá há mais tempo)
         const perdedores = jogadores.filter(j => j.status === timeDerrotadoId).sort((a, b) => a.posicao - b.posicao);
 
         const qtdEntra = Math.min(filaEspera.length, tamanhoTime);
         const quemEntra = filaEspera.slice(0, qtdEntra);
-        const quemFica = perdedores.slice(0, Math.max(0, perdedores.length - qtdEntra));
-        const quemSai = perdedores.slice(Math.max(0, perdedores.length - qtdEntra));
+        
+        // Trava para "emagrecer" o time se tiver gente sobrando da conta
+        const maxQuemFica = Math.max(0, tamanhoTime - qtdEntra);
+        const qtdSai = Math.max(0, perdedores.length - maxQuemFica);
+        const quemSai = perdedores.slice(0, qtdSai);
 
-        const novoTimeIds = [...quemEntra, ...quemFica].map(t => t.id);
-        const novaFilaIds = quemSai.map(j => j.id);
-        const agora = Date.now();
+        // Organiza a galera que saiu por quem chegou primeiro no clube
+        const quemSaiOrdenado = [...quemSai].sort((a, b) => a.ordemChegada - b.ordemChegada);
+        
+        const quemEntraIds = quemEntra.map(j => j.id);
+        const quemSaiIds = quemSaiOrdenado.map(j => j.id);
 
-        setJogadores(lista => lista.map(j => {
-            let part = j.partidas + (j.status === "timeA" || j.status === "timeB" ? 1 : 0);
-            if (novoTimeIds.includes(j.id)) return { ...j, status: timeDerrotadoId, posicao: agora + novoTimeIds.indexOf(j.id), partidas: part };
-            if (novaFilaIds.includes(j.id)) return { ...j, status: "fila", posicao: agora + 1000000 + novaFilaIds.indexOf(j.id), partidas: part };
-            if (j.status === timeVencedorId) return { ...j, partidas: part };
-            return j;
-        }));
+        setJogadores(lista => {
+            const numBase = getMaiorPosicao(lista);
+
+            return lista.map(j => {
+                let part = j.partidas + (j.status === "timeA" || j.status === "timeB" ? 1 : 0);
+                
+                // 1. Entrando no time: ganham as próximas posições
+                if (quemEntraIds.includes(j.id)) {
+                    return { ...j, status: timeDerrotadoId, posicao: numBase + 1 + quemEntraIds.indexOf(j.id), partidas: part };
+                }
+                
+                // 2. Saindo do time: ganham posições DEPOIS dos que entraram
+                if (quemSaiIds.includes(j.id)) {
+                    return { ...j, status: "fila", posicao: numBase + 100 + quemSaiIds.indexOf(j.id), partidas: part };
+                }
+                
+                // 3. Demais atualizam partidas mas mantêm a numeração antiga para serem os próximos da fila
+                if (j.status === timeDerrotadoId) return { ...j, partidas: part };
+                if (j.status === timeVencedorId) return { ...j, partidas: part };
+                
+                return j;
+            });
+        });
     };
 
     const mudarStatus = (id: string, novoStatus: "timeA" | "timeB" | "fila" | "fora") => {
+        // Bloqueio de segurança para não inchar o time manualmente
+        if (novoStatus === "timeA" && timeA.length >= tamanhoTime) {
+            alert(`⚠️ O Time A já está cheio (${tamanhoTime} jogadores)! Remova alguém antes.`);
+            return;
+        }
+        if (novoStatus === "timeB" && timeB.length >= tamanhoTime) {
+            alert(`⚠️ O Time B já está cheio (${tamanhoTime} jogadores)! Remova alguém antes.`);
+            return;
+        }
+
         salvarHistorico();
-        const agora = Date.now();
-        setJogadores(lista => lista.map(j => j.id === id ? { ...j, status: novoStatus, posicao: agora } : j));
+        
+        setJogadores(lista => {
+            const proximaPosicao = getMaiorPosicao(lista) + 1;
+            return lista.map(j => j.id === id ? { ...j, status: novoStatus, posicao: proximaPosicao } : j);
+        });
+        
         setJogadorSelecionado(null);
     };
 
@@ -109,21 +164,27 @@ export default function GerenciadorRacha() {
         const ativos = jogadores.filter(j => j.status !== "fora");
         if (ativos.length < 2) return;
         salvarHistorico();
-        const titulares = ativos.sort((a, b) => a.dataAdd - b.dataAdd).slice(0, tamanhoTime * 2);
+        
+        // Pega os mais antigos de clube
+        const titulares = ativos.sort((a, b) => a.ordemChegada - b.ordemChegada).slice(0, tamanhoTime * 2);
         const embaralhado = [...titulares].sort(() => Math.random() - 0.5);
-        const agora = Date.now();
-        setJogadores(lista => lista.map(j => {
-            if (j.status === "fora") return j;
-            const idxSorteio = embaralhado.findIndex(t => t.id === j.id);
-            if (idxSorteio !== -1) return { ...j, status: idxSorteio < tamanhoTime ? "timeA" : "timeB", posicao: agora + idxSorteio, partidas: 0 };
-            return { ...j, status: "fila", posicao: agora + 2000 + j.dataAdd, partidas: 0 };
-        }));
-    };
-
-    const injetarTeste = () => {
-        const nomes = ["Leandro", "João", "Pedrinho", "Lucas", "Gabriel", "Thiago", "Marcos", "Rafael", "Bruno", "Carlos", "Diego", "Fernando", "Rodrigo", "Alex", "Marcelo", "Felipe", "Zé Goleiro"];
-        const agora = Date.now();
-        setJogadores(nomes.map((n, i) => ({ id: (agora + i).toString(), nome: n, partidas: 0, status: "fila", dataAdd: agora + i, posicao: agora + i })));
+        
+        setJogadores(lista => {
+            const numBase = getMaiorPosicao(lista);
+            
+            return lista.map(j => {
+                if (j.status === "fora") return j;
+                
+                const idxSorteio = embaralhado.findIndex(t => t.id === j.id);
+                
+                if (idxSorteio !== -1) {
+                    return { ...j, status: idxSorteio < tamanhoTime ? "timeA" : "timeB", posicao: numBase + 1 + idxSorteio, partidas: 0 };
+                }
+                
+                // Quem sobrar do sorteio reseta a posição para a ordem de chegada, ficando no topo da fila
+                return { ...j, status: "fila", posicao: j.ordemChegada, partidas: 0 };
+            });
+        });
     };
 
     const renderTime = (titulo: string, timeId: "timeA" | "timeB", jogadoresTime: Jogador[], corBg: string, corBorda: string, corTxt: string) => (
@@ -136,7 +197,7 @@ export default function GerenciadorRacha() {
                 {jogadoresTime.map((j, i) => (
                     <div key={j.id} className="bg-white p-3.5 rounded-2xl flex justify-between items-center border border-slate-100 shadow-sm">
                         <div className="flex items-center gap-3">
-                            <span className="text-[10px] font-black text-slate-300">{i + 1}</span>
+                            <span className="text-[10px] font-black text-slate-300">{i + 1}º</span>
                             <span className="text-sm font-bold text-slate-800">{j.nome}</span>
                         </div>
                         <div className="flex items-center gap-3">
@@ -155,7 +216,12 @@ export default function GerenciadorRacha() {
 
             {/* HEADER */}
             <div className="mt-4 flex justify-between items-center">
-                <h1 className="text-2xl font-black tracking-tighter italic text-slate-900">RACHA PRO ⚽</h1>
+                <div className="flex flex-col">
+                    <h1 className="text-2xl font-black tracking-tighter italic text-slate-900">RACHA PRO ⚽</h1>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Ativos hoje: {jogadores.filter(j => j.status !== "fora").length} jogadores
+                    </span>
+                </div>
                 <div className="flex gap-2">
                     {historico.length > 0 && <button onClick={desfazerAcao} className="text-[10px] font-bold bg-white border px-4 py-2 rounded-xl active:scale-95 shadow-sm">↩ DESFAZER</button>}
                     <button onClick={sortearIniciais} className="text-[10px] font-bold bg-slate-900 text-white px-4 py-2 rounded-xl active:scale-95 shadow-lg">🎲 SORTEAR</button>
@@ -184,7 +250,6 @@ export default function GerenciadorRacha() {
                     <input type="text" placeholder="Novo jogador..." className="flex-1 p-5 rounded-[1.5rem] border-none shadow-md font-bold outline-none focus:ring-2 focus:ring-slate-900 bg-white" value={nomeInput} onChange={e => setNomeInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && adicionarJogador()} />
                     <button onClick={adicionarJogador} className="bg-slate-900 text-white px-7 rounded-[1.5rem] font-black text-2xl shadow-xl active:scale-95 transition-all">+</button>
                 </div>
-                {/* {jogadores.length === 0 && <button onClick={injetarTeste} className="bg-indigo-600 text-white p-4 rounded-3xl text-[10px] font-black uppercase shadow-lg active:scale-95">🧪 Injetar 17 nomes</button>} */}
             </div>
 
             {/* PRÓXIMOS A JOGAR */}
@@ -199,9 +264,11 @@ export default function GerenciadorRacha() {
                             <div className="flex items-center gap-4">
                                 <span className="text-[10px] font-black text-slate-200 w-4">{i + 1}º</span>
                                 <span className="font-bold text-slate-700">{j.nome}</span>
-                                {j.partidas > 0 && <span className="text-[10px] font-black text-orange-400 bg-orange-50 px-2 py-1 rounded-lg">🔥 {j.partidas}</span>}
                             </div>
-                            <button onClick={() => setJogadorSelecionado(j)} className="bg-white w-10 h-10 rounded-xl shadow-sm border border-slate-200 flex items-center justify-center font-bold text-slate-400 active:scale-90 transition-all">⇄</button>
+                            <div className="flex items-center gap-3">
+                                {j.partidas > 0 && <span className="text-[10px] font-black text-orange-400 bg-orange-50 px-2 py-1 rounded-lg">🔥 {j.partidas}</span>}
+                                <button onClick={() => setJogadorSelecionado(j)} className="bg-white w-10 h-10 rounded-xl shadow-sm border border-slate-200 flex items-center justify-center font-bold text-slate-400 active:scale-90 transition-all">⇄</button>
+                            </div>
                         </div>
                     ))}
                 </div>
