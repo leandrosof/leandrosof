@@ -23,7 +23,7 @@ export default function Card({
   return (
     <div className={cardClass}>
       <h3>{title}</h3>
-      <p dangerouslySetInnerHTML={{ __html: description || "" }}></p>
+      {description && <p dangerouslySetInnerHTML={{ __html: description }} />}
       {children}
     </div>
   );

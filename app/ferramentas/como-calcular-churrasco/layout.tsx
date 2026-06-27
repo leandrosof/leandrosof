@@ -19,6 +19,14 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://leandrosof.com.br/ferramentas/como-calcular-churrasco", 
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calculadora de Churrasco | Monte sua lista de compras",
+    description: "Vai fazer um churras e não sabe o que comprar? Coloque o número de homens, mulheres e crianças e descubra a lista exata do que levar.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/como-calcular-churrasco",
+  },
 };
 
 export default function BBQCalculatorLayout({ children }: { children: React.ReactNode }) {

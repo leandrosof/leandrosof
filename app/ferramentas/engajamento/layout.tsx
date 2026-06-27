@@ -17,7 +17,15 @@ export const metadata: Metadata = {
     title: "Calculadora de Engajamento | Grátis e Online",
     description: "Descubra a taxa de engajamento real das suas publicações em segundos. Perfeito para criadores de conteúdo e agências.",
     type: "website",
-    // url: "https://leandrosof.com.br/ferramentas/calculadora-engajamento", // Ajuste para a URL real
+    url: "https://leandrosof.com.br/ferramentas/engajamento",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calculadora de Engajamento | Grátis e Online",
+    description: "Descubra a taxa de engajamento real das suas publicações em segundos. Perfeito para criadores de conteúdo e agências.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/engajamento",
   },
 };
 

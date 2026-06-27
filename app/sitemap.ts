@@ -3,19 +3,23 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://leandrosof.com.br";
 
-  // 1. Tipamos a constante explicitamente com : MetadataRoute.Sitemap
   const routes: MetadataRoute.Sitemap = [
-    "", // Página inicial
+    "",
     "/ferramentas/whatsapp",
+    "/ferramentas/gerador-bio-instagram",
     "/ferramentas/engajamento",
     "/ferramentas/roi",
+    "/ferramentas/calculadora-freelance",
+    "/ferramentas/contador-caracteres",
+    "/ferramentas/gerador-paleta-cores",
     "/ferramentas/tmb",
     "/ferramentas/1rm",
     "/ferramentas/box-shadow",
     "/ferramentas/quiz-ia",
     "/ferramentas/como-passar-whitelist-gta-rp",
     "/ferramentas/como-calcular-churrasco",
-    "/ferramentas/calculadora-salario-liquido"
+    "/ferramentas/calculadora-salario-liquido",
+    "/ferramentas/gerenciador-de-racha",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

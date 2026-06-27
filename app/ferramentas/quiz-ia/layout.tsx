@@ -16,6 +16,15 @@ export const metadata: Metadata = {
     title: "Quiz IA Infinito | Crie seu Quiz na hora",
     description: "Digite um tema e a Inteligência Artificial cria 15 perguntas inéditas para você testar seus conhecimentos. Vai encarar?",
     type: "website",
+    url: "https://leandrosof.com.br/ferramentas/quiz-ia",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Quiz IA Infinito | Crie seu Quiz na hora",
+    description: "Digite um tema e a Inteligência Artificial cria 15 perguntas inéditas para você testar seus conhecimentos. Vai encarar?",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/quiz-ia",
   },
 };
 

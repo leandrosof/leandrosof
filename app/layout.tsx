@@ -1,20 +1,90 @@
 import "./globals.css";
 import Script from "next/script";
+import ParticleBackground from "@/components/ParticleBackground";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata = {
-  title: "Leandro Silva | Criador de Conteúdo & Tech",
+  metadataBase: new URL("https://leandrosof.com.br"),
+  title: {
+    default: "Leandro Silva | Criador de Conteúdo, Tech & Ferramentas Gratuitas",
+    template: "%s | Leandro Silva",
+  },
   description:
-    "Portfólio oficial de Leandro Silva. Criador de conteúdo, Analista de Sistemas e desenvolvedor.",
-  icons: {
-    icon: [
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    "Portfólio oficial de Leandro Silva (@leandrosof). Criador de conteúdo, Analista de Sistemas, Desenvolvedor e especialista em UX & IoT. Ferramentas gratuitas para Instagram, freelancers e criadores de conteúdo.",
+  keywords: [
+    "Leandro Silva",
+    "leandrosof",
+    "criador de conteúdo",
+    "analista de sistemas",
+    "UX",
+    "IoT",
+    "desenvolvedor",
+    "ferramentas gratuitas",
+    "calculadora engajamento",
+    "gerador de bio instagram",
+    "calculadora freelance",
+    "portfolio dev",
+    "GTA RP",
+    "Planaltina DF",
+  ],
+  authors: [{ name: "Leandro Silva", url: "https://leandrosof.com.br" }],
+  creator: "Leandro Silva",
+  publisher: "Leandro Silva",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "https://leandrosof.com.br",
+    siteName: "Leandro Silva",
+    title: "Leandro Silva | Criador de Conteúdo, Tech & Ferramentas Gratuitas",
+    description:
+      "Portfólio oficial de Leandro Silva. Criador de conteúdo, desenvolvedor e especialista em UX & IoT. Ferramentas gratuitas para criadores.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Leandro Silva - Criador de Conteúdo & Tech",
+      },
     ],
   },
-  manifest: '/site.webmanifest',
+  twitter: {
+    card: "summary_large_image",
+    title: "Leandro Silva | Criador de Conteúdo & Tech",
+    description:
+      "Portfólio oficial de Leandro Silva. Ferramentas gratuitas, conteúdo tech e lifestyle.",
+    images: ["/og-image.png"],
+    creator: "@leandrosof",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br",
+    types: {
+      "application/rss+xml": "https://leandrosof.com.br/sitemap.xml",
+    },
+  },
+  verification: {
+    google: "google37622cbb23fec224",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -25,7 +95,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        {/* Scripts do Google Analytics */}
+        <JsonLd />
+        <ParticleBackground />
+
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-YGVYMEH4Q9"
           strategy="afterInteractive"

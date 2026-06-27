@@ -17,7 +17,15 @@ export const metadata: Metadata = {
     title: "Gerador de Box Shadow CSS | Ferramenta para Devs e UI",
     description: "Ajuste os parâmetros da sombra visualmente e copie o código CSS na hora. Ideal para agilizar o desenvolvimento front-end e prototipação de interfaces.",
     type: "website",
-    // url: "https://leandrosof.com.br/ferramentas/gerador-box-shadow", // Lembre-se de ajustar para a URL real da sua rota
+    url: "https://leandrosof.com.br/ferramentas/box-shadow",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gerador de Box Shadow CSS | Ferramenta para Devs e UI",
+    description: "Ajuste os parâmetros da sombra visualmente e copie o código CSS na hora. Ideal para agilizar o desenvolvimento front-end e prototipação de interfaces.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/box-shadow",
   },
 };
 

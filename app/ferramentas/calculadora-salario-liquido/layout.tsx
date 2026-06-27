@@ -20,6 +20,14 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://leandrosof.com.br/ferramentas/calculadora-salario-liquido",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calculadora de Salário Líquido Atualizada (2026)",
+    description: "Recebeu uma proposta de emprego? Coloque o salário bruto aqui e descubra na hora quanto vai cair na sua conta depois dos impostos.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/calculadora-salario-liquido",
+  },
 };
 
 export default function NetSalaryLayout({ children }: { children: React.ReactNode }) {

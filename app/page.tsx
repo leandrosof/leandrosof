@@ -1,18 +1,15 @@
 import Card from "@/components/Card";
-import Script from "next/script";
 import AnimationObserver from "@/components/AnimationObserver";
 import Header from "@/components/Header";
+import ReelsCarousel from "@/components/ReelsCarousel";
+import { reels, getReelIframe } from "@/data/reels";
 
-// Variáveis com os embeds gigantes do seu Instagram para manter o código limpo
-const reel1 = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DU8wrqqkZCq/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"></blockquote>`;
-const reel2 = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DUmNrNbEaEM/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"></blockquote>`;
-const reel3 = `<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DNCYeyttAnG/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"></blockquote>`;
+const reelEmbeds = reels.map((r) => getReelIframe(r.id));
 
 export default function Home() {
   return (
     <>
       <Header />
-      {/* Componente que faz as animações de scroll funcionarem */}
       <AnimationObserver />
 
       <section id="conteudo" className="creator-section">
@@ -20,15 +17,14 @@ export default function Home() {
         <p
           style={{
             marginBottom: "2rem",
-            fontSize: "1.1rem",
+            fontSize: "1.05rem",
             color: "var(--text-secondary)",
+            maxWidth: "800px",
           }}
         >
           Meu estilo de criação é dinâmico e autêntico. Acredito em mostrar a
           realidade de forma leve, mesclando o lado focado e analítico da
-          tecnologia com o entretenimento puro e a disciplina do dia a dia. Seja
-          em uma live, em um vídeo curto ou em um post, o objetivo é sempre
-          conectar.
+          tecnologia com o entretenimento puro e a disciplina do dia a dia.
         </p>
 
         <div className="grid-container">
@@ -55,30 +51,16 @@ export default function Home() {
         <p
           style={{
             marginBottom: "2rem",
-            fontSize: "1.1rem",
+            fontSize: "1.05rem",
             color: "var(--text-secondary)",
+            maxWidth: "800px",
           }}
         >
-          Confira alguns dos meus conteúdos mais recentes direto do Instagram.
+          Confira meus conteúdos mais recentes direto do Instagram. Arraste para
+          navegar entre os vídeos.
         </p>
 
-        <div className="grid-container" style={{ justifyItems: "center" }}>
-          <div
-            className="reel-box"
-            dangerouslySetInnerHTML={{ __html: reel1 }}
-          ></div>
-          <div
-            className="reel-box"
-            dangerouslySetInnerHTML={{ __html: reel2 }}
-          ></div>
-          <div
-            className="reel-box"
-            dangerouslySetInnerHTML={{ __html: reel3 }}
-          ></div>
-        </div>
-
-        {/* Script nativo do Next para renderizar o Instagram */}
-        <Script src="//www.instagram.com/embed.js" strategy="lazyOnload" />
+        <ReelsCarousel embeds={reelEmbeds} />
       </section>
 
       <section id="dev">
@@ -86,8 +68,9 @@ export default function Home() {
         <p
           style={{
             marginBottom: "2rem",
-            fontSize: "1.1rem",
+            fontSize: "1.05rem",
             color: "var(--text-secondary)",
+            maxWidth: "800px",
           }}
         >
           Como Analista de Sistemas pós-graduado em UX & IoT, atuo fortemente em
@@ -116,7 +99,7 @@ export default function Home() {
 
       <section id="sobre">
         <h2>Sobre Leandro Silva</h2>
-        <p style={{ fontSize: "1.1rem", maxWidth: "800px", lineHeight: "1.8" }}>
+        <p style={{ fontSize: "1.05rem", maxWidth: "800px", lineHeight: "1.8" }}>
           Nascido em 1992 e residente em Planaltina, DF, atuo como analista de
           sistemas, desenvolvedor de software, influenciador digital e criador
           de conteúdo (@leandrosof). Sou graduado em Sistemas para Internet pelo
@@ -124,7 +107,7 @@ export default function Home() {
         </p>
         <p
           style={{
-            fontSize: "1.1rem",
+            fontSize: "1.05rem",
             maxWidth: "800px",
             lineHeight: "1.8",
             marginTop: "1rem",

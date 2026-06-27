@@ -17,7 +17,15 @@ export const metadata: Metadata = {
     title: "Gerador de Link do WhatsApp | Grátis e Rápido",
     description: "Facilite o contato com seus clientes. Crie seu link personalizado do WhatsApp em 1 clique e coloque nas suas redes sociais.",
     type: "website",
-    // url: "https://leandrosof.com.br/ferramentas/gerador-link-whatsapp", // Ajuste para a URL real
+    url: "https://leandrosof.com.br/ferramentas/whatsapp",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gerador de Link do WhatsApp | Grátis e Rápido",
+    description: "Facilite o contato com seus clientes. Crie seu link personalizado do WhatsApp em 1 clique e coloque nas suas redes sociais.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/whatsapp",
   },
 };
 

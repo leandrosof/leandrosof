@@ -19,7 +19,15 @@ export const metadata: Metadata = {
     title: "Calculadora de TMB | Descubra suas metas de calorias",
     description: "Quer secar ou focar no ganho de massa? Descubra exatamente quantas calorias você precisa consumir por dia com nossa calculadora.",
     type: "website",
-    // url: "https://leandrosof.com.br/ferramentas/calculadora-tmb", // Lembre-se de ajustar para a URL real
+    url: "https://leandrosof.com.br/ferramentas/tmb",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calculadora de TMB | Descubra suas metas de calorias",
+    description: "Quer secar ou focar no ganho de massa? Descubra exatamente quantas calorias você precisa consumir por dia com nossa calculadora.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/tmb",
   },
 };
 

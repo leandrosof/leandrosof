@@ -19,6 +19,14 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://leandrosof.com.br/ferramentas/gerenciador-de-racha", 
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Racha Pro ⚽ | O Organizador de Pelada Mais Justo",
+    description: "Sistema de catraca inteligente: quem perde sai, a fila anda e o racha não para. Calcule partidas e organize times em segundos.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/gerenciador-de-racha",
+  },
 };
 
 export default function RachaLayout({ children }: { children: React.ReactNode }) {

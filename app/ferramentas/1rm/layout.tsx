@@ -18,7 +18,15 @@ export const metadata: Metadata = {
     title: "Calculadora de 1RM | Descubra sua Carga Máxima na Musculação",
     description: "Vai tentar bater seu PR? Descubra o quanto você consegue levantar em 1 repetição máxima (1RM) de forma segura usando nossa calculadora.",
     type: "website",
-    // url: "https://leandrosof.com.br/ferramentas/calculadora-1rm", // Ajuste para a URL real
+    url: "https://leandrosof.com.br/ferramentas/1rm",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calculadora de 1RM | Descubra sua Carga Máxima na Musculação",
+    description: "Vai tentar bater seu PR? Descubra o quanto você consegue levantar em 1 repetição máxima (1RM) de forma segura usando nossa calculadora.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/1rm",
   },
 };
 

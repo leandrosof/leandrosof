@@ -20,7 +20,14 @@ export const metadata: Metadata = {
     description: "O melhor gerador de histórias e ajudante de regras para GTA RP. Crie seu background (legal ou ilegal) em segundos e garanta sua vaga na cidade.",
     type: "website",
     url: "https://leandrosof.com.br/ferramentas/como-passar-whitelist-gta-rp",
-    /* Se você tiver uma imagem de capa (og:image), pode adicionar aqui para o link ficar bonito no Discord/WhatsApp */
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Whitelist Helper GTA RP | Crie sua História e Passe na Prova",
+    description: "O melhor gerador de histórias e ajudante de regras para GTA RP. Crie seu background (legal ou ilegal) em segundos e garanta sua vaga na cidade.",
+  },
+  alternates: {
+    canonical: "https://leandrosof.com.br/ferramentas/como-passar-whitelist-gta-rp",
   },
 };
 
