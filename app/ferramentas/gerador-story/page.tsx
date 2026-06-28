@@ -5,51 +5,26 @@ import { trackToolUsage } from "@/lib/analytics";
 
 /* ── Fontes ── */
 const FONTES = [
-  {
-    name: "Playfair Display",
-    cat: "elegante",
-    family: "'Playfair Display', serif",
-  },
-  {
-    name: "Cormorant Garamond",
-    cat: "elegante",
-    family: "'Cormorant Garamond', serif",
-  },
-  {
-    name: "Dancing Script",
-    cat: "elegante",
-    family: "'Dancing Script', cursive",
-  },
-  { name: "Bebas Neue", cat: "impacto", family: "'Bebas Neue', sans-serif" },
-  { name: "Anton", cat: "impacto", family: "'Anton', sans-serif" },
-  { name: "Oswald", cat: "impacto", family: "'Oswald', sans-serif" },
-  { name: "Montserrat", cat: "moderna", family: "'Montserrat', sans-serif" },
-  { name: "Poppins", cat: "moderna", family: "'Poppins', sans-serif" },
-  { name: "Raleway", cat: "moderna", family: "'Raleway', sans-serif" },
-  { name: "Luckiest Guy", cat: "zueira", family: "'Luckiest Guy', cursive" },
-  {
-    name: "Permanent Marker",
-    cat: "zueira",
-    family: "'Permanent Marker', cursive",
-  },
-  { name: "Bangers", cat: "zueira", family: "'Bangers', cursive" },
-  { name: "Lora", cat: "clean", family: "'Lora', serif" },
-  { name: "Nunito", cat: "clean", family: "'Nunito', sans-serif" },
-  { name: "Quicksand", cat: "clean", family: "'Quicksand', sans-serif" },
-  { name: "Abril Fatface", cat: "display", family: "'Abril Fatface', cursive" },
-  { name: "Righteous", cat: "display", family: "'Righteous', sans-serif" },
-  { name: "Lobster", cat: "display", family: "'Lobster', cursive" },
-  { name: "Space Mono", cat: "mono", family: "'Space Mono', monospace" },
-  { name: "Fira Code", cat: "mono", family: "'Fira Code', monospace" },
+  { name: "Serif", cat: "elegante", family: "Georgia, 'Times New Roman', serif" },
+  { name: "Cursiva", cat: "elegante", family: "'Brush Script MT', 'Comic Sans MS', cursive" },
+  { name: "Impact", cat: "impacto", family: "Impact, 'Arial Black', sans-serif" },
+  { name: "Arial Black", cat: "impacto", family: "'Arial Black', Gadget, sans-serif" },
+  { name: "Trebuchet", cat: "moderna", family: "'Trebuchet MS', Helvetica, sans-serif" },
+  { name: "Verdana", cat: "moderna", family: "Verdana, Geneva, sans-serif" },
+  { name: "Comic Sans", cat: "zueira", family: "'Comic Sans MS', 'Comic Neue', cursive" },
+  { name: "Courier New", cat: "zueira", family: "'Courier New', monospace" },
+  { name: "Tahoma", cat: "clean", family: "Tahoma, Geneva, sans-serif" },
+  { name: "Palatino", cat: "clean", family: "'Palatino Linotype', 'Book Antiqua', serif" },
+  { name: "Lucida Console", cat: "mono", family: "'Lucida Console', Monaco, monospace" },
+  { name: "Consolas", cat: "mono", family: "Consolas, 'Courier New', monospace" },
 ];
 
 const FONT_CATS = [
   { key: "elegante", label: "Elegante" },
   { key: "impacto", label: "Impacto" },
   { key: "moderna", label: "Moderna" },
-  { key: "zueira", label: "Zueira BR" },
+  { key: "zueira", label: "Zueira" },
   { key: "clean", label: "Clean" },
-  { key: "display", label: "Display" },
   { key: "mono", label: "Mono" },
 ];
 
@@ -152,54 +127,52 @@ export default function GeradorStory() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
-  // Carrega todas as frases ao montar
+  // Carrega TODAS as frases uma vez
   useEffect(() => {
     fetch("/api/gerar-frases-story", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tom: "todas", assunto: "" }),
-    })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.todas) setTodasFrases(d.todas);
-        if (d.frases) setFrases(d.frases);
-      });
+    }).then(r => r.json()).then(d => {
+      if (d.frases) { setTodasFrases(d.frases); setFrases(d.frases); }
+    });
   }, []);
 
-  function buscarPorCategoria(cat: string) {
-    setFiltroCat(cat);
-    fetch("/api/gerar-frases-story", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tom: cat, assunto: "" }),
-    })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.frases) setFrases(d.frases);
-        if (d.hashtags) setHashtags(d.hashtags);
-      });
-  }
-
-  function buscarPorTexto(txt: string) {
-    setFiltroBusca(txt);
-    if (txt.trim().length < 2) {
-      buscarPorCategoria(filtroCat);
-      return;
+  // Filtro client-side instantaneo
+  useEffect(() => {
+    let pool = [...todasFrases];
+    const busca = filtroBusca.trim().toLowerCase();
+    if (busca.length >= 2) {
+      const termos = busca.split(/\s+/).filter(w => w.length > 1);
+      pool = pool.filter(f => termos.some(t => f.toLowerCase().includes(t)));
     }
-    fetch("/api/gerar-frases-story", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tom: filtroCat, assunto: txt }),
-    })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.frases) setFrases(d.frases);
-      });
-  }
+    if (filtroCat !== "todas") {
+      const catKeywords: Record<string, string[]> = {
+        motivacao: ["senna","jobs","jordan","ganhar","vencer","campeão","sonho","garra","foco","disciplina","superação","persistência","sucesso","determinação","coragem","atitude","resultado","excelência"],
+        zueira: ["palmeiras","segunda","café","academia","netflix","whatsapp","preguiça","golpe","brasil","sextou","cerveja","bolsa","beleza","cansado","surto"],
+        empreendedor: ["dinheiro","trabalho","empreendedor","sucesso","negócio","vender","mercado","cliente","risco","investimento","lucro","salário","chefe","empresa"],
+        romance: ["amor","saudade","coração","beijo","abraço","paixão","namoro","casal","romance","amar","te amo","você","sentimento","carinho"],
+        reflexao: ["vida","tempo","mundo","paz","alma","felicidade","existência","sabedoria","pensamento","reflexão","verdade","essência","passado","futuro"],
+        musicas: ["cantar","música","canção","melodia","samba","rock","mpb","legião","tim maia","raul","cazuza","chico","caetano","gil","roberto carlos"],
+        filmes: ["filme","cena","cinema","star wars","batman","vingadores","harry potter","forrest","matrix","guerra","galáxia","herói"],
+      };
+      const keywords = catKeywords[filtroCat];
+      if (keywords) pool = pool.filter(f => keywords.some(k => f.toLowerCase().includes(k)));
+    }
+    setFrases(pool);
+    if (filtroCat !== "todas") {
+      fetch("/api/gerar-frases-story", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tom: filtroCat, assunto: "" }),
+      }).then(r => r.json()).then(d => { if (d.hashtags) setHashtags(d.hashtags); });
+    } else { setHashtags([]); }
+  }, [todasFrases, filtroCat, filtroBusca]);
+
+  function buscarPorCategoria(cat: string) { setFiltroCat(cat); setFiltroBusca(""); }
+  function buscarPorTexto(txt: string) { setFiltroBusca(txt); }
 
   const [titulo, setTitulo] = useState<TextLayer>({
     text: "",
-    font: prefs.tituloFonte || "Bebas Neue",
+    font: prefs.tituloFonte || "Impact, 'Arial Black', sans-serif",
     size: 120,
     color: "#ffffff",
     x: W / 2,
@@ -209,7 +182,7 @@ export default function GeradorStory() {
   });
   const [corpo, setCorpo] = useState<TextLayer>({
     text: "",
-    font: prefs.corpoFonte || "Montserrat",
+    font: prefs.corpoFonte || "'Trebuchet MS', Helvetica, sans-serif",
     size: 64,
     color: "#ffffff",
     x: W / 2,
@@ -449,6 +422,20 @@ export default function GeradorStory() {
     }, "image/png");
   }
 
+  async function compartilhar() {
+    trackToolUsage("gerador-story", "compartilhar");
+    const canvas = downloadRef.current;
+    if (!canvas) return;
+    const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
+    if (!blob) return;
+    const file = new File([blob], "story.png", { type: "image/png" });
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
+      try { await navigator.share({ title: "Meu Story", text: titulo.text, files: [file] }); return; }
+      catch { /* cancelou */ }
+    }
+    baixar();
+  }
+
   /* ── Aplicar estilo ── */
   function aplicarEstilo(key: string) {
     const est = ESTILOS.find((e) => e.key === key);
@@ -461,6 +448,15 @@ export default function GeradorStory() {
 
   const layer = selectedLayer === "titulo" ? titulo : corpo;
   const setLayer = selectedLayer === "titulo" ? setTitulo : setCorpo;
+
+  if (!mounted) {
+    return (
+      <section style={{ paddingTop: "2rem", minHeight: "100vh" }}>
+        <h2>Gerador de Story com Frase</h2>
+        <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -584,16 +580,7 @@ export default function GeradorStory() {
             >
               {frases.map((f, i) => {
                 const ativo = fraseIdx === i && titulo.text === f;
-  if (!mounted) {
-    return (
-      <section style={{ paddingTop: "2rem", minHeight: "100vh" }}>
-        <h2>Gerador de Story com Frase</h2>
-        <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>
-      </section>
-    );
-  }
-
-  return (
+                return (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                     <button
                       onClick={() => { setFraseIdx(i); selecionarFrase(f); }}
@@ -799,20 +786,18 @@ export default function GeradorStory() {
                 />
               </div>
             </div>
-            <div style={{ marginTop: "0.8rem" }}>
+            <div style={{ marginTop: "0.6rem", display: "flex", gap: "0.5rem", alignItems: "center" }}>
               <label
-                style={{
-                  fontSize: "0.7rem",
-                  color: "var(--text-secondary)",
-                  display: "block",
-                  marginBottom: "0.3rem",
-                }}
+                htmlFor="bg-upload"
+                style={{ flex: 1, padding: "10px", borderRadius: "14px", border: "2px dashed var(--accent-color)", background: "rgba(99,102,241,0.06)", color: "var(--accent-color)", fontWeight: 700, fontSize: "0.8rem", cursor: "pointer", textAlign: "center" }}
               >
-                Ou faça upload de uma imagem de fundo
+                📷 Upload imagem de fundo
               </label>
               <input
+                id="bg-upload"
                 type="file"
                 accept="image/*"
+                style={{ display: "none" }}
                 onChange={(e) => {
                   const f = e.target.files?.[0];
                   if (f) {
@@ -822,7 +807,6 @@ export default function GeradorStory() {
                     trackToolUsage("gerador-story", "upload_fundo");
                   }
                 }}
-                style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}
               />
               {uploadBg && (
                 <button
@@ -1280,25 +1264,20 @@ export default function GeradorStory() {
             🖐️ Arraste os textos no preview para posicionar
           </p>
 
-          <button
-            onClick={baixar}
-            disabled={!titulo.text && !corpo.text}
-            style={{
-              width: "100%",
-              padding: "14px",
-              borderRadius: "30px",
-              border: "none",
-              background:
-                titulo.text || corpo.text ? "#22c55e" : "rgba(34,197,94,0.2)",
-              color:
-                titulo.text || corpo.text ? "#fff" : "rgba(255,255,255,0.4)",
-              fontWeight: 800,
-              fontSize: "1rem",
-              cursor: titulo.text || corpo.text ? "pointer" : "default",
-            }}
-          >
-            ⬇ Baixar Story (1080×1920)
-          </button>
+          <div style={{ display: "flex", gap: "0.6rem" }}>
+            <button onClick={baixar} disabled={!titulo.text && !corpo.text} style={{
+              flex: 1, padding: "14px", borderRadius: "30px", border: "none",
+              background: titulo.text || corpo.text ? "#22c55e" : "rgba(34,197,94,0.2)",
+              color: titulo.text || corpo.text ? "#fff" : "rgba(255,255,255,0.4)",
+              fontWeight: 800, fontSize: "1rem", cursor: titulo.text || corpo.text ? "pointer" : "default",
+            }}>⬇ Baixar Story</button>
+            <button onClick={compartilhar} disabled={!titulo.text && !corpo.text} style={{
+              flex: 1, padding: "14px", borderRadius: "30px", border: "none",
+              background: titulo.text || corpo.text ? "var(--accent-color)" : "rgba(99,102,241,0.2)",
+              color: titulo.text || corpo.text ? "#fff" : "rgba(255,255,255,0.4)",
+              fontWeight: 800, fontSize: "1rem", cursor: titulo.text || corpo.text ? "pointer" : "default",
+            }}>📤 Compartilhar</button>
+          </div>
         </div>
       </div>
     </section>

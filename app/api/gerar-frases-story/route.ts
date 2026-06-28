@@ -50,10 +50,9 @@ export async function POST(req: NextRequest) {
     const tema = assunto?.trim();
     if (tema) {
       const termos = tema.toLowerCase().split(/\s+/).filter((w: string) => w.length > 2);
-      const relevantes = pool.filter((f) =>
+      pool = pool.filter((f) =>
         termos.some((t: string) => f.toLowerCase().includes(t))
       );
-      if (relevantes.length >= 3) pool = relevantes;
     }
 
     // 3. Contexto do dia da semana (exceto quando tem busca específica)

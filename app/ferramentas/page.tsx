@@ -29,7 +29,7 @@ const tools: Tool[] = [
   { href: "/ferramentas/gerador-qrcode", title: "Gerador de QR Code", desc: "QR Codes personalizados: cores, tamanho, templates WhatsApp/Wi-Fi. Download PNG/SVG.", emoji: "📱", category: "utilidades" },
   { href: "/ferramentas/gerador-cpf-cnpj", title: "Gerador de CPF/CNPJ", desc: "Gere CPF e CNPJ com dígitos verificadores válidos para testes de software.", emoji: "🪪", category: "dev" },
   { href: "/ferramentas/gerador-hashtags", title: "Gerador de Hashtags (IA)", desc: "Hashtags otimizadas por IA para Instagram e TikTok: populares, nichadas e tendências.", emoji: "#️⃣", category: "redes" },
-  { href: "/ferramentas/gerador-story", title: "Gerador de Story (IA)", desc: "Crie stories com frases IA, fontes, cores e posicione texto. Download 1080×1920.", emoji: "📱", category: "redes" },
+  { href: "/ferramentas/gerador-story", title: "Gerador de Story", desc: "Crie stories com frases reais de autores consagrados. Fontes, cores e download 1080×1920.", emoji: "📱", category: "redes" },
   { href: "/ferramentas/conversor-moedas", title: "Conversor de Moedas", desc: "Converta 160+ moedas com cotação em tempo real. Inclui Bitcoin e Ethereum.", emoji: "💱", category: "financas" },
   { href: "/ferramentas/calculadora-imc", title: "Calculadora de IMC", desc: "Calcule seu Índice de Massa Corporal e veja a classificação da OMS.", emoji: "⚖️", category: "calculadoras" },
   { href: "/ferramentas/calculadora-ferias", title: "Calculadora de Férias", desc: "Calcule férias CLT com 1/3, abono pecuniário, INSS, IRRF e adiantamento 13º.", emoji: "🏖️", category: "calculadoras" },
