@@ -3,6 +3,7 @@
 import Card from "@/components/Card";
 import Link from "next/link";
 import { useState, useMemo } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 interface Tool {
   href: string;
@@ -142,6 +143,7 @@ export default function FerramentasHub() {
               key={tool.href}
               href={tool.href}
               style={{ textDecoration: "none", color: "inherit" }}
+              onClick={() => trackEvent({ action: "click_ferramenta", category: "navegacao", label: tool.title })}
             >
               <Card type="tech" title={`${tool.emoji} ${tool.title}`} description={tool.desc} />
             </Link>

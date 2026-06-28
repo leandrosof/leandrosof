@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 type Result = { populares: string[]; nichadas: string[]; tendencias: string[] };
 
@@ -14,6 +15,7 @@ export default function GeradorHashtags() {
 
   async function gerar() {
     if (!tema.trim()) return;
+    trackToolUsage("gerador-hashtags", "gerar");
     setLoading(true);
     try {
       const res = await fetch("/api/gerar-hashtags", {

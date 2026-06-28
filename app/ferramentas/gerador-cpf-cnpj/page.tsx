@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 function gerarCPF(): string {
   const nums = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
@@ -43,6 +44,7 @@ export default function GeradorCPFCNPJ() {
   const [ponto, setPonto] = useState(true);
 
   const gerar = useCallback(() => {
+    trackToolUsage("gerador-cpf-cnpj", "gerar");
     let c = gerarCPF();
     let j = gerarCNPJ();
     if (!ponto) { c = c.replace(/\D/g, ""); j = j.replace(/\D/g, ""); }

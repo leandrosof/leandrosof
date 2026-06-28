@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 type Classificacao = {
   label: string; min: number; max: number; cor: string; desc: string;
@@ -32,6 +33,7 @@ export default function CalculadoraIMC() {
     const imc = p / (a * a);
     const classif = tabela.find((c) => imc >= c.min && imc < c.max) || tabela[tabela.length - 1];
     setResultado({ imc, classif });
+    trackToolUsage("calculadora-imc", "calcular");
   }
 
   const handleKey = (e: React.KeyboardEvent) => { if (e.key === "Enter") calcular(); };

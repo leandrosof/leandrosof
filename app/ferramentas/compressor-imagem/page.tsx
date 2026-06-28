@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function CompressorImagem() {
   const [original, setOriginal] = useState<string | null>(null);
@@ -28,6 +29,7 @@ export default function CompressorImagem() {
 
   function compress() {
     if (!fileRef.current) return;
+    trackToolUsage("compressor-imagem", "comprimir");
     setError("");
     const img = new Image();
     img.onload = () => {

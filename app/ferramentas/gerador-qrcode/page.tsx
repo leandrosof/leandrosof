@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 type Template = "livre" | "whatsapp" | "wifi" | "email" | "url";
 
@@ -12,6 +13,14 @@ export default function GeradorQRCode() {
   const [ecc, setEcc] = useState("M");
   const [margin, setMargin] = useState(10);
   const [template, setTemplate] = useState<Template>("livre");
+  const trackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!trackedRef.current && text.trim()) {
+      trackedRef.current = true;
+      trackToolUsage("gerador-qrcode", "gerar");
+    }
+  }, [text]);
 
   // Templates
   const applyTemplate = useCallback((t: Template) => {

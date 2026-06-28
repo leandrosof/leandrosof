@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 const MOEDAS = [
   "BRL", "USD", "EUR", "GBP", "JPY", "CNY", "ARS", "BTC", "ETH",
@@ -17,6 +18,7 @@ export default function ConversorMoedas() {
   const [to, setTo] = useState("BRL");
   const [amount, setAmount] = useState("1");
   const [lastUpdate, setLastUpdate] = useState("");
+  const trackedRef = useRef(false);
 
   useEffect(() => {
     fetch("/api/cotacoes")
@@ -26,6 +28,10 @@ export default function ConversorMoedas() {
         setRates(data.rates);
         setLastUpdate(new Date(data.updated).toLocaleString("pt-BR"));
         setLoading(false);
+        if (!trackedRef.current) {
+          trackedRef.current = true;
+          trackToolUsage("conversor-moedas", "converter");
+        }
       })
       .catch(() => { setError("Erro ao carregar cotações. Tente novamente."); setLoading(false); });
   }, []);

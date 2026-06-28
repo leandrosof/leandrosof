@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function EngagementCalculator() {
   const [seguidores, setSeguidores] = useState("");
@@ -11,6 +12,7 @@ export default function EngagementCalculator() {
 
   const calcularEngajamento = (e: React.FormEvent) => {
     e.preventDefault();
+    trackToolUsage("engajamento", "calcular");
     const seg = parseInt(seguidores);
     const cur = parseInt(curtidas);
     const com = parseInt(comentarios);

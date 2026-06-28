@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function ROICalculator() {
   const [investimento, setInvestimento] = useState("");
@@ -26,6 +27,7 @@ export default function ROICalculator() {
 
   const calcularROI = (e: React.FormEvent) => {
     e.preventDefault();
+    trackToolUsage("roi", "calcular");
     const inv = parseCurrency(investimento);
     const ret = parseCurrency(retorno);
 

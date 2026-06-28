@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function FormatadorJSON() {
   const [input, setInput] = useState("");
@@ -10,6 +11,7 @@ export default function FormatadorJSON() {
   const [copied, setCopied] = useState(false);
 
   function format() {
+    trackToolUsage("formatador-json", "formatar");
     try {
       const parsed = JSON.parse(input.trim() || "{}");
       setOutput(JSON.stringify(parsed, null, indent));
@@ -32,6 +34,7 @@ export default function FormatadorJSON() {
   }
 
   function validate() {
+    trackToolUsage("formatador-json", "validar");
     try {
       const parsed = JSON.parse(input.trim() || "{}");
       const size = new Blob([input]).size;

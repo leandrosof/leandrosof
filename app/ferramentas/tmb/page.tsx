@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function TMBCalculator() {
   const [peso, setPeso] = useState("");
@@ -18,6 +19,7 @@ export default function TMBCalculator() {
 
   const calcularTMB = (e: React.FormEvent) => {
     e.preventDefault();
+    trackToolUsage("tmb", "calcular");
     const p = parseFloat(peso);
     const a = parseFloat(altura);
     const i = parseInt(idade);

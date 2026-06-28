@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 const PLATFORMS = [
   { name: "Instagram", limit: 2200, color: "#dc2743" },
@@ -15,6 +16,15 @@ const PLATFORMS = [
 export default function ContadorCaracteres() {
   const [text, setText] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState(PLATFORMS[0]);
+  const trackedRef = useRef(false);
+
+  function handleTextChange(value: string) {
+    setText(value);
+    if (!trackedRef.current && value.trim()) {
+      trackedRef.current = true;
+      trackToolUsage("contador-caracteres", "digitar");
+    }
+  }
 
   const charCount = text.length;
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
@@ -81,7 +91,7 @@ export default function ContadorCaracteres() {
       <div style={{ position: "relative", marginBottom: "1rem" }}>
         <textarea
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => handleTextChange(e.target.value)}
           placeholder="Cole ou digite seu texto aqui..."
           style={{
             width: "100%",

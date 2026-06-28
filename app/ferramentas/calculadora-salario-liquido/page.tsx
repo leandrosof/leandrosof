@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function NetSalaryCalculator() {
   const [salarioBruto, setSalarioBruto] = useState("");
@@ -30,6 +31,7 @@ export default function NetSalaryCalculator() {
 
   const calcularSalario = (e: React.FormEvent) => {
     e.preventDefault();
+    trackToolUsage("calculadora-salario-liquido", "calcular");
     const bruto = parseCurrency(salarioBruto);
     const deps = parseInt(dependentes) || 0;
     const outros = parseCurrency(outrosDescontos) || 0;

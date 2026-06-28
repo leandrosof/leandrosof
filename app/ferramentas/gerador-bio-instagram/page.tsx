@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function GeradorBioInstagram() {
   const [niche, setNiche] = useState("");
@@ -12,8 +13,9 @@ export default function GeradorBioInstagram() {
 
   async function generate() {
     if (!niche.trim()) return;
-    setLoading(true);
-    setBios([]);
+      setLoading(true);
+      setBios([]);
+      trackToolUsage("gerador-bio-instagram", "gerar");
 
     try {
       const res = await fetch("/api/gerar-bio", {

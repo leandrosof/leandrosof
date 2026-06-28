@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 type Harmony = "complementar" | "analogo" | "triadico" | "tetradico" | "monocromatico" | "aleatorio";
 
@@ -79,6 +80,7 @@ export default function GeradorPaletaCores() {
   const [copiedAll, setCopiedAll] = useState(false);
 
   const regenerate = useCallback(() => {
+    trackToolUsage("gerador-paleta-cores", "gerar");
     setPalette((prev) => {
       const newColors = generatePalette(harmony);
       return prev.map((c, i) => (locked[i] ? c : newColors[i]));
@@ -89,6 +91,7 @@ export default function GeradorPaletaCores() {
     setHarmony(h);
     setLocked([false, false, false, false, false]);
     setPalette(generatePalette(h));
+    trackToolUsage("gerador-paleta-cores", "gerar");
   }
 
   function toggleLock(index: number) {

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function RPGenerator() {
   // Estados para a História
@@ -24,6 +25,7 @@ export default function RPGenerator() {
   // Função Gerar História
   async function gerarPersonagem(e: React.FormEvent) {
     e.preventDefault();
+    trackToolUsage("como-passar-whitelist-gta-rp", "gerar");
     setLoading(true);
     try {
       const res = await fetch("/api/gerar-historia", {

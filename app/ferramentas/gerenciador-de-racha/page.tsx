@@ -1,6 +1,7 @@
 "use client";
 
 import { useReducer, useEffect, useRef, useState } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 type Status = "timeA" | "timeB" | "fila" | "fora";
 
@@ -467,8 +468,8 @@ export default function GerenciadorRacha() {
             <span style={{ fontSize: "0.7rem", color: "#ef4444" }}>O time perdedor será rotacionado com a fila.</span>
           </p>
           <div style={{ display: "flex", gap: "1rem" }}>
-            <button onClick={() => { dispatch({ type: "RECORD_MATCH", winner: "timeA" }); setShowEndGame(false); }} style={{ flex: 1, padding: "1.2rem", borderRadius: "20px", border: "none", background: "#3b82f6", color: "#fff", fontWeight: 800, fontSize: "1rem", cursor: "pointer" }}>🔵 Time A Venceu</button>
-            <button onClick={() => { dispatch({ type: "RECORD_MATCH", winner: "timeB" }); setShowEndGame(false); }} style={{ flex: 1, padding: "1.2rem", borderRadius: "20px", border: "none", background: "#ef4444", color: "#fff", fontWeight: 800, fontSize: "1rem", cursor: "pointer" }}>🔴 Time B Venceu</button>
+            <button onClick={() => { trackToolUsage("gerenciador-de-racha", "registrar_partida"); dispatch({ type: "RECORD_MATCH", winner: "timeA" }); setShowEndGame(false); }} style={{ flex: 1, padding: "1.2rem", borderRadius: "20px", border: "none", background: "#3b82f6", color: "#fff", fontWeight: 800, fontSize: "1rem", cursor: "pointer" }}>🔵 Time A Venceu</button>
+            <button onClick={() => { trackToolUsage("gerenciador-de-racha", "registrar_partida"); dispatch({ type: "RECORD_MATCH", winner: "timeB" }); setShowEndGame(false); }} style={{ flex: 1, padding: "1.2rem", borderRadius: "20px", border: "none", background: "#ef4444", color: "#fff", fontWeight: 800, fontSize: "1rem", cursor: "pointer" }}>🔴 Time B Venceu</button>
           </div>
         </Modal>
       )}
@@ -497,7 +498,7 @@ export default function GerenciadorRacha() {
           </p>
           <div style={{ display: "flex", gap: "1rem" }}>
             <button onClick={() => setShowShuffleConfirm(false)} style={secondaryBtn}>Cancelar</button>
-            <button onClick={() => { dispatch({ type: "SHUFFLE_TEAMS" }); setShowShuffleConfirm(false); }} style={primaryBtn}>Sortear</button>
+            <button onClick={() => { trackToolUsage("gerenciador-de-racha", "sortear"); dispatch({ type: "SHUFFLE_TEAMS" }); setShowShuffleConfirm(false); }} style={primaryBtn}>Sortear</button>
           </div>
         </Modal>
       )}

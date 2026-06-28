@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function BoxShadowGenerator() {
   const [x, setX] = useState("0");
@@ -9,6 +10,14 @@ export default function BoxShadowGenerator() {
   const [blur, setBlur] = useState("20");
   const [spread, setSpread] = useState("0");
   const [color, setColor] = useState("rgba(0,0,0,0.5)");
+  const trackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!trackedRef.current) {
+      trackedRef.current = true;
+      trackToolUsage("box-shadow", "gerar");
+    }
+  }, [x, y, blur, spread, color]);
 
   const boxShadowRule = `${x}px ${y}px ${blur}px ${spread}px ${color}`;
 

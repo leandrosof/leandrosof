@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 type Pergunta = {
     pergunta: string;
@@ -20,6 +21,7 @@ export default function QuizIA() {
 
     const gerarQuiz = async () => {
         if (!tema) return;
+        trackToolUsage("quiz-ia", "gerar");
         setLoading(true);
         setErroLimite(false);
         setPerguntas([]);

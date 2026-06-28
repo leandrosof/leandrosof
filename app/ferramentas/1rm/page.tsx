@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function OneRepMaxCalculator() {
   const [peso, setPeso] = useState("");
@@ -10,6 +11,7 @@ export default function OneRepMaxCalculator() {
 
   const calcularRM = (e: React.FormEvent) => {
     e.preventDefault();
+    trackToolUsage("1rm", "calcular");
     const p = parseFloat(peso);
     const r = parseInt(reps);
 

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function JurosCompostos() {
   const [inicial, setInicial] = useState("1000");
@@ -8,6 +9,14 @@ export default function JurosCompostos() {
   const [taxa, setTaxa] = useState("1");
   const [periodo, setPeriodo] = useState(12);
   const [tipoTaxa, setTipoTaxa] = useState<"mensal" | "anual">("mensal");
+  const trackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!trackedRef.current) {
+      trackedRef.current = true;
+      trackToolUsage("calculadora-juros-compostos", "calcular");
+    }
+  }, [inicial, mensal, taxa, periodo, tipoTaxa]);
 
   const taxaDecimal = tipoTaxa === "anual"
     ? Math.pow(1 + parseFloat(taxa || "0") / 100, 1 / 12) - 1

@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function CalculadoraFreelance() {
   const [monthlyGoal, setMonthlyGoal] = useState(8000);
   const [weeklyHours, setWeeklyHours] = useState(30);
   const [vacationWeeks, setVacationWeeks] = useState(4);
   const [expenses, setExpenses] = useState(20);
+  const trackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!trackedRef.current) {
+      trackedRef.current = true;
+      trackToolUsage("calculadora-freelance", "calcular");
+    }
+  }, [monthlyGoal, weeklyHours, vacationWeeks, expenses]);
 
   const workWeeks = 52 - vacationWeeks;
   const hoursPerMonth = (weeklyHours * workWeeks) / 12;

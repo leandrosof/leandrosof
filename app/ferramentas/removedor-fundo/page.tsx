@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function RemovedorFundo() {
   const [original, setOriginal] = useState<string | null>(null);
@@ -38,12 +39,14 @@ export default function RemovedorFundo() {
 
     try {
       if (!bgRemovalRef.current) {
+        trackToolUsage("removedor-fundo", "baixar_modelo");
         setProgress(10);
         const mod = await import("@imgly/background-removal");
         bgRemovalRef.current = mod;
         setModelLoaded(true);
       }
       setProgress(20);
+      trackToolUsage("removedor-fundo", "processar");
 
       const blob = await bgRemovalRef.current.removeBackground(fileRef.current, {
         progress: (_key: string, current: number, total: number) => {

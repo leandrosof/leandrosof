@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 function fmtMoeda(v: number) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
@@ -52,8 +53,16 @@ export default function CalculadoraFerias() {
   const [abono, setAbono] = useState(false);
   const [adiantar13, setAdiantar13] = useState(false);
   const [dependentes, setDependentes] = useState(0);
+  const [tracked, setTracked] = useState(false);
 
   const sal = parseFloat(salario.replace(",", ".")) || 0;
+
+  useEffect(() => {
+    if (sal > 0 && !tracked) {
+      trackToolUsage("calculadora-ferias", "calcular");
+      setTracked(true);
+    }
+  }, [sal, tracked]);
 
   // Dias de férias: se vendeu abono, são 20 dias de gozo + 10 de abono
   const diasFerias = abono ? 20 : dias;

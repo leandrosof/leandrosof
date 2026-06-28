@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function BBQCalculator() {
   const [homens, setHomens] = useState("");
@@ -17,6 +18,7 @@ export default function BBQCalculator() {
 
   const calcularChurrasco = (e: React.FormEvent) => {
     e.preventDefault();
+    trackToolUsage("como-calcular-churrasco", "calcular");
     
     const h = parseInt(homens) || 0;
     const m = parseInt(mulheres) || 0;

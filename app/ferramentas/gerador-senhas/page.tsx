@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { trackToolUsage } from "@/lib/analytics";
 
 const CHARS = {
   upper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -25,6 +26,7 @@ export default function GeradorSenhas() {
     if (useNumbers) pool += CHARS.numbers;
     if (useSymbols) pool += CHARS.symbols;
     if (!pool) return;
+    trackToolUsage("gerador-senhas", "gerar");
 
     const arr = new Uint32Array(length);
     crypto.getRandomValues(arr);

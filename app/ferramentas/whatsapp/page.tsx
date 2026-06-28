@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Card from "@/components/Card";
+import { trackToolUsage } from "@/lib/analytics";
 
 export default function WhatsAppLinkGenerator() {
   const [phone, setPhone] = useState("");
@@ -10,6 +11,7 @@ export default function WhatsAppLinkGenerator() {
 
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
+    trackToolUsage("whatsapp", "gerar");
     // Limpa caracteres especiais do número
     const cleanPhone = phone.replace(/\D/g, "");
     const encodedMessage = encodeURIComponent(message);
