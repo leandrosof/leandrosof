@@ -84,7 +84,7 @@ export const metadata = {
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
-  manifest: "/site.webmanifest",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -94,6 +94,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <meta name="theme-color" content="#0a0a0f" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Leandro Silva" />
+      </head>
       <body>
         <JsonLd />
         <ParticleBackground />
@@ -108,6 +114,14 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-YGVYMEH4Q9');
+          `}
+        </Script>
+
+        <Script id="pwa-register" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.register('/sw.js');
+            }
           `}
         </Script>
 
