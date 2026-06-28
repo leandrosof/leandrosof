@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/ferramentas/whatsapp",
     "/ferramentas/gerador-bio-instagram",
     "/ferramentas/gerador-hashtags",
+    "/ferramentas/gerador-story",
     "/ferramentas/engajamento",
     "/ferramentas/roi",
     "/ferramentas/calculadora-freelance",
