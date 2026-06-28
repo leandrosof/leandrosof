@@ -150,7 +150,7 @@ export default function QuizIA() {
                             <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                                 <p className="font-medium leading-relaxed">
                                     <span className="text-red-400 mr-2">🤖</span>
-                                    <strong className="text-white">Aviso de Precisão:</strong> Como as perguntas são geradas 100% por Inteligência Artificial na hora do clique, podem ocorrer imprecisões históricas ou fatos desatualizados (as famosas "alucinações"). Jogue pela diversão!
+                                    <strong className="text-white">Aviso de Precisão:</strong> Como as perguntas são geradas 100% por Inteligência Artificial na hora do clique, podem ocorrer imprecisões históricas ou fatos desatualizados (as famosas &quot;alucinações&quot;). Jogue pela diversão!
                                 </p>
                             </div>
                         </div>
@@ -178,7 +178,7 @@ export default function QuizIA() {
                     <div className="w-16 h-16 border-4 border-white/10 border-t-cyan-500 rounded-full animate-spin"></div>
                     <div className="space-y-2">
                         <h2 className="text-2xl font-black text-white">Criando perguntas inéditas...</h2>
-                        <p className="text-slate-400 italic">Pesquisando sobre "{tema}"...</p>
+                        <p className="text-slate-400 italic">Pesquisando sobre &quot;{tema}&quot;...</p>
                     </div>
                 </div>
             )}

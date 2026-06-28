@@ -66,7 +66,6 @@ export default function Header() {
 
       <div className="nav-links">
         <Link href="/#conteudo">O Criador</Link>
-        <Link href="/#reels">Reels</Link>
         <Link href="/#dev">Portfólio Tech</Link>
         <Link href="/ferramentas">Ferramentas</Link>
         <Link href="/#sobre">Sobre Mim</Link>

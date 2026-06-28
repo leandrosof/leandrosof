@@ -301,9 +301,49 @@ export default function GerenciadorRacha() {
   const teamsFull = teamA.length === state.teamSize && teamB.length === state.teamSize;
 
   return (
-    <div style={{ maxWidth: "480px", margin: "0 auto", padding: "1.5rem 1.2rem 6rem", minHeight: "100vh", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+    <>
+      <style>{`
+        .racha-container {
+          max-width: 480px;
+          margin: 0 auto;
+          padding: 1.5rem 1.2rem 6rem;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+        .racha-teams {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        @media (min-width: 768px) {
+          .racha-container {
+            max-width: 900px;
+            padding: 2rem 2rem 6rem;
+          }
+          .racha-teams {
+            flex-direction: row;
+            gap: 1.25rem;
+          }
+          .racha-teams > * {
+            flex: 1;
+            min-width: 0;
+          }
+          .racha-header h1 {
+            font-size: 2rem !important;
+          }
+        }
+        @media (min-width: 1100px) {
+          .racha-container {
+            max-width: 1100px;
+          }
+        }
+      `}</style>
+
+    <div className="racha-container">
       {/* HEADER */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginTop: "0.5rem" }}>
+      <div className="racha-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginTop: "0.5rem" }}>
         <div>
           <h1 style={{ fontSize: "1.6rem", fontWeight: 900, letterSpacing: "-0.5px", margin: 0 }}>RACHA PRO ⚽</h1>
           <p style={{ fontSize: "0.7rem", color: "var(--text-secondary)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", margin: "2px 0 0" }}>
@@ -319,39 +359,14 @@ export default function GerenciadorRacha() {
       {/* TIMER */}
       <div className="card" style={{ padding: "1rem 1.5rem", opacity: 1, transform: "none", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1.5rem" }}>
-          <span style={{ fontFamily: "monospace", fontSize: "2.5rem", fontWeight: 900, letterSpacing: "2px", fontVariantNumeric: "tabular-nums" }}>
+          <span style={{ fontFamily: "monospace", fontSize: "clamp(1.8rem, 5vw, 2.5rem)", fontWeight: 900, letterSpacing: "2px", fontVariantNumeric: "tabular-nums" }}>
             {fmtTime(timerSeconds)}
           </span>
           <div style={{ display: "flex", gap: "0.5rem" }}>
-            <button
-              onClick={toggleTimer}
-              style={{
-                padding: "0.6rem 1.2rem",
-                borderRadius: "30px",
-                border: "none",
-                background: timerRunning ? "#f59e0b" : "#22c55e",
-                color: "#fff",
-                fontWeight: 800,
-                fontSize: "0.85rem",
-                cursor: "pointer",
-                minWidth: "80px",
-              }}
-            >
+            <button onClick={toggleTimer} style={{ padding: "0.6rem 1.2rem", borderRadius: "30px", border: "none", background: timerRunning ? "#f59e0b" : "#22c55e", color: "#fff", fontWeight: 800, fontSize: "0.85rem", cursor: "pointer", minWidth: "80px" }}>
               {timerRunning ? "⏸ Pausar" : "▶ Iniciar"}
             </button>
-            <button
-              onClick={resetTimer}
-              style={{
-                padding: "0.6rem 1.2rem",
-                borderRadius: "30px",
-                border: "1px solid var(--surface-border)",
-                background: "transparent",
-                color: "var(--text-secondary)",
-                fontWeight: 700,
-                fontSize: "0.85rem",
-                cursor: "pointer",
-              }}
-            >
+            <button onClick={resetTimer} style={{ padding: "0.6rem 1.2rem", borderRadius: "30px", border: "1px solid var(--surface-border)", background: "transparent", color: "var(--text-secondary)", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer" }}>
               ↺ Zerar
             </button>
           </div>
@@ -359,7 +374,7 @@ export default function GerenciadorRacha() {
       </div>
 
       {/* TEAMS */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <div className="racha-teams">
         <TeamBlock label="Time A · Colete Azul" color="#3b82f6" players={teamA} teamSize={state.teamSize} onSelect={setSelectedPlayer} canEndGame={teamsFull} onEndGame={() => setShowEndGame(true)} />
         <TeamBlock label="Time B · Colete Vermelho" color="#ef4444" players={teamB} teamSize={state.teamSize} onSelect={setSelectedPlayer} canEndGame={teamsFull} onEndGame={() => setShowEndGame(true)} />
       </div>
@@ -573,6 +588,7 @@ export default function GerenciadorRacha() {
         </Modal>
       )}
     </div>
+    </>
   );
 }
 

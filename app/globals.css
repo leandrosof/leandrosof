@@ -358,93 +358,6 @@ h2::after {
   line-height: 1.7;
 }
 
-/* ========== REELS CAROUSEL ========== */
-.reels-carousel {
-  position: relative;
-  max-width: 100%;
-}
-
-.reels-track {
-  display: flex;
-  gap: 1.25rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 0.5rem 0;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.reels-track::-webkit-scrollbar {
-  display: none;
-}
-
-.reel-slide {
-  flex: 0 0 calc((100% - 2.5rem) / 3);
-  scroll-snap-align: start;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.reel-slide iframe {
-  width: 100%;
-  aspect-ratio: 9 / 16;
-  max-height: 580px;
-  border: none;
-  border-radius: 16px;
-}
-
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--surface-border);
-  background: rgba(10, 10, 15, 0.8);
-  backdrop-filter: blur(10px);
-  color: var(--text-color);
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.carousel-btn:hover {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-}
-
-.carousel-btn.prev { left: -10px; }
-.carousel-btn.next { right: -10px; }
-
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 1rem;
-}
-
-.carousel-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: var(--surface-border);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.carousel-dot.active {
-  background: var(--accent-color);
-  box-shadow: 0 0 8px var(--accent-color);
-}
-
 /* ========== FOOTER ========== */
 footer {
   text-align: center;
@@ -488,7 +401,4 @@ footer {
   h2 { font-size: 1.8rem; }
   .grid-container { grid-template-columns: 1fr; }
   .hero-tagline { font-size: 0.8rem; gap: 0.5rem; }
-  .reel-slide { flex: 0 0 85%; }
-  .carousel-btn.prev { left: 0; }
-  .carousel-btn.next { right: 0; }
 }

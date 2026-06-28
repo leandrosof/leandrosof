@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 const PLATFORMS = [
   { name: "Instagram", limit: 2200, color: "#dc2743" },
@@ -22,6 +22,17 @@ export default function ContadorCaracteres() {
   const readingTime = Math.ceil(wordCount / 200);
   const charsWithoutSpaces = text.replace(/\s/g, "").length;
   const limitPercent = Math.min((charCount / selectedPlatform.limit) * 100, 100);
+
+  // Word frequency
+  const wordFrequency = useMemo(() => {
+    const words = text.toLowerCase().match(/\b[\wá-ú]+\b/g) || [];
+    const freq: Record<string, number> = {};
+    words.forEach((w) => { if (w.length > 2) freq[w] = (freq[w] || 0) + 1; });
+    return Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 15);
+  }, [text]);
+
+  // Density
+  const uniqueWords = text.trim() ? new Set(text.toLowerCase().match(/\b[\wá-ú]+\b/g) || []).size : 0;
 
   return (
     <section style={{ paddingTop: "3rem", minHeight: "80vh" }}>
@@ -139,7 +150,21 @@ export default function ContadorCaracteres() {
           label="Leitura"
           value={`~${readingTime}s`}
         />
+        <StatCard label="Únicas" value={uniqueWords} />
       </div>
+
+      {wordFrequency.length > 0 && (
+        <div className="card" style={{ maxWidth: "700px", marginTop: "1rem", opacity: 1, transform: "none" }}>
+          <h3 style={{ marginTop: 0 }}>Palavras mais usadas</h3>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            {wordFrequency.map(([word, count]) => (
+              <span key={word} style={{ padding: "4px 12px", borderRadius: "20px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.15)", color: "var(--accent-color)", fontSize: "0.75rem", fontWeight: 600, whiteSpace: "nowrap" }}>
+                {word} <span style={{ opacity: 0.6 }}>×{count}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div
         className="card tech-card"

@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       temperature: 0.8,
     });
 
-    let content = completion.choices[0]?.message?.content || "";
+    const content = completion.choices[0]?.message?.content || "";
 
     // 1. Extrai apenas o que está entre as chaves para evitar lixo
     const jsonMatch = content.match(/\{[\s\S]*\}/);
@@ -58,8 +58,7 @@ export async function POST(req: Request) {
 
       // validJson.historia = validJson.historia.replace(/\n{3,}/g, "\n\n").trim();
       return NextResponse.json(validJson);
-    } catch (e) {
-      console.log("Erro no parse, tentando fallback manual");
+    } catch (_e) {
       // Se a IA quebrar o JSON, a gente reconstrói o objeto na mão
       return NextResponse.json({
         nome: nome,

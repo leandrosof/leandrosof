@@ -60,13 +60,13 @@ export async function POST(req: Request) {
     try {
       const data = JSON.parse(content);
       return NextResponse.json(data);
-    } catch (e) {
+    } catch (_e) {
       // Se por algum milagre o texto for cortado, o site não quebra
       return NextResponse.json({ error: "Conteúdo muito extenso para o limite de tokens." }, { status: 422 });
     }
 
-  } catch (error: any) {
-    if (error?.status === 429) {
+  } catch (error: unknown) {
+    if (error && typeof error === "object" && "status" in error && (error as { status: number }).status === 429) {
       return NextResponse.json({ error: "Limite atingido" }, { status: 429 });
     }
     return NextResponse.json({ error: "Erro interno" }, { status: 500 });

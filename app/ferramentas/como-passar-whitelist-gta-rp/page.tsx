@@ -38,7 +38,7 @@ export default function RPGenerator() {
       });
       const data = await res.json();
       setPersonagem(data);
-    } catch (error) {
+    } catch (_error) {
       alert("Erro ao conectar com a API de história.");
     } finally {
       setLoading(false);

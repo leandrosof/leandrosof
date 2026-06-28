@@ -1,10 +1,6 @@
 import Card from "@/components/Card";
 import AnimationObserver from "@/components/AnimationObserver";
 import Header from "@/components/Header";
-import ReelsCarousel from "@/components/ReelsCarousel";
-import { reels, getReelIframe } from "@/data/reels";
-
-const reelEmbeds = reels.map((r) => getReelIframe(r.id));
 
 export default function Home() {
   return (
@@ -44,23 +40,6 @@ export default function Home() {
             description="A vida offline também vira conteúdo. Compartilho minha disciplina na musculação — o equilíbrio necessário para quem passa horas codando e streamando — e momentos de resenha, quase sempre acompanhado do meu cachorro, Frederico."
           />
         </div>
-      </section>
-
-      <section id="reels" className="creator-section">
-        <h2>Últimos Reels</h2>
-        <p
-          style={{
-            marginBottom: "2rem",
-            fontSize: "1.05rem",
-            color: "var(--text-secondary)",
-            maxWidth: "800px",
-          }}
-        >
-          Confira meus conteúdos mais recentes direto do Instagram. Arraste para
-          navegar entre os vídeos.
-        </p>
-
-        <ReelsCarousel embeds={reelEmbeds} />
       </section>
 
       <section id="dev">
