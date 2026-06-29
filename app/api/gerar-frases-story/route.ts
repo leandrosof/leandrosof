@@ -2,13 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import frasesData from "@/data/frases.json";
 
 interface FrasesDB {
-  motivacao: string[];
-  zueira: string[];
-  empreendedor: string[];
-  romance: string[];
-  reflexao: string[];
-  musicas: string[];
-  filmes: string[];
+  motivacao: string[]; visao: string[]; zueira: string[]; resenha: string[];
+  indiretas: string[]; empreendedor: string[]; tech: string[]; trampo: string[];
+  conteudo: string[]; romance: string[]; reflexao: string[]; curtas: string[];
+  musicas: string[]; futebol: string[]; carro: string[]; filmes: string[];
   diasemana: { segunda: string[]; sexta: string[]; fimdesemana: string[]; };
 }
 const frases = frasesData as unknown as FrasesDB;
@@ -38,8 +35,10 @@ export async function POST(req: NextRequest) {
     let pool: string[];
     if (tom === "todas") {
       pool = [
-        ...frases.motivacao, ...frases.zueira, ...frases.empreendedor,
-        ...frases.romance, ...frases.reflexao, ...frases.musicas, ...frases.filmes,
+        ...frases.motivacao, ...frases.visao, ...frases.zueira, ...frases.resenha,
+        ...frases.indiretas, ...frases.empreendedor, ...frases.tech, ...frases.trampo,
+        ...frases.conteudo, ...frases.romance, ...frases.reflexao, ...frases.curtas,
+        ...frases.musicas, ...frases.futebol, ...frases.carro, ...frases.filmes,
       ];
     } else {
       const categoria = (frases[tom as keyof typeof frases] as string[]) || frases.motivacao;
@@ -55,12 +54,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Contexto do dia da semana (exceto quando tem busca específica)
-    const dia = new Date().getDay();
-    const diaKey = DIAS[dia];
-    if (diaKey && !tema) {
-      const diaFrases = frases.diasemana[diaKey] || [];
-      pool = [...new Set([...diaFrases, ...pool])];
+    // 3. Contexto do dia da semana (só quando é "todas" e sem busca)
+    if (tom === "todas" && !tema) {
+      const dia = new Date().getDay();
+      const diaKey = DIAS[dia];
+      if (diaKey) {
+        const diaFrases = frases.diasemana[diaKey] || [];
+        pool = [...new Set([...diaFrases, ...pool])];
+      }
     }
 
     // 4. Remove duplicatas e retorna TUDO (sem limitar)
@@ -70,11 +71,22 @@ export async function POST(req: NextRequest) {
 
     // 6. Hashtags genéricas baseadas no tom
     const hashMap: Record<string, string[]> = {
-      motivacao: ["#motivação", "#foco", "#disciplina", "#evolução", "#mindset"],
-      zueira: ["#zueira", "#humor", "#meme", "#brasil", "#sextou"],
-      empreendedor: ["#empreendedorismo", "#negócios", "#trabalho", "#sucesso", "#dinheiro"],
-      romance: ["#amor", "#romance", "#casal", "#saudade", "#frasesdeamor"],
-      reflexao: ["#reflexão", "#pensamento", "#filosofia", "#vida", "#sabedoria"],
+      motivacao: ["#motivação","#foco","#disciplina","#evolução","#mindset"],
+      visao: ["#visão","#cria","#caminhada","#corre","#atitude"],
+      zueira: ["#zueira","#humor","#meme","#brasil","#sextou"],
+      resenha: ["#resenha","#humor","#piada","#risos","#brasil"],
+      indiretas: ["#indireta","#deboche","#real","#atitude","#blindagem"],
+      empreendedor: ["#empreendedorismo","#negócios","#trabalho","#sucesso","#dinheiro"],
+      tech: ["#tech","#dev","#programação","#código","#bug"],
+      trampo: ["#trampo","#conteúdo","#criador","#work","#bastidor"],
+      conteudo: ["#conteúdo","#criador","#vídeo","#edição","#algoritmo"],
+      carro: ["#carro","#asfalto","#garagem","#motor","#estrada"],
+      romance: ["#amor","#romance","#casal","#saudade","#frasesdeamor"],
+      reflexao: ["#reflexão","#pensamento","#filosofia","#vida","#sabedoria"],
+      curtas: ["#frases","#curtas","#story","#inspiração","#vibe"],
+      musicas: ["#música","#mpb","#rocknacional","#samba","#poesia"],
+      futebol: ["#futebol","#bola","#gol","#camisa10","#domingo"],
+      filmes: ["#filme","#cinema","#frasesdefilme","#cultura","#pop"],
     };
     const hashtags = hashMap[tom] || ["#frases", "#story", "#instagram"];
 

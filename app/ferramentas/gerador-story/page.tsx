@@ -137,35 +137,27 @@ export default function GeradorStory() {
     });
   }, []);
 
-  // Filtro client-side instantaneo
+  // Filtro: API para categoria, client-side para busca de texto
   useEffect(() => {
-    let pool = [...todasFrases];
-    const busca = filtroBusca.trim().toLowerCase();
-    if (busca.length >= 2) {
-      const termos = busca.split(/\s+/).filter(w => w.length > 1);
-      pool = pool.filter(f => termos.some(t => f.toLowerCase().includes(t)));
+    if (filtroCat === "todas") {
+      setFrases(todasFrases);
+      setHashtags([]);
+      return;
     }
-    if (filtroCat !== "todas") {
-      const catKeywords: Record<string, string[]> = {
-        motivacao: ["senna","jobs","jordan","ganhar","vencer","campeão","sonho","garra","foco","disciplina","superação","persistência","sucesso","determinação","coragem","atitude","resultado","excelência"],
-        zueira: ["palmeiras","segunda","café","academia","netflix","whatsapp","preguiça","golpe","brasil","sextou","cerveja","bolsa","beleza","cansado","surto"],
-        empreendedor: ["dinheiro","trabalho","empreendedor","sucesso","negócio","vender","mercado","cliente","risco","investimento","lucro","salário","chefe","empresa"],
-        romance: ["amor","saudade","coração","beijo","abraço","paixão","namoro","casal","romance","amar","te amo","você","sentimento","carinho"],
-        reflexao: ["vida","tempo","mundo","paz","alma","felicidade","existência","sabedoria","pensamento","reflexão","verdade","essência","passado","futuro"],
-        musicas: ["cantar","música","canção","melodia","samba","rock","mpb","legião","tim maia","raul","cazuza","chico","caetano","gil","roberto carlos"],
-        filmes: ["filme","cena","cinema","star wars","batman","vingadores","harry potter","forrest","matrix","guerra","galáxia","herói"],
-      };
-      const keywords = catKeywords[filtroCat];
-      if (keywords) pool = pool.filter(f => keywords.some(k => f.toLowerCase().includes(k)));
-    }
-    setFrases(pool);
-    if (filtroCat !== "todas") {
-      fetch("/api/gerar-frases-story", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tom: filtroCat, assunto: "" }),
-      }).then(r => r.json()).then(d => { if (d.hashtags) setHashtags(d.hashtags); });
-    } else { setHashtags([]); }
-  }, [todasFrases, filtroCat, filtroBusca]);
+    fetch("/api/gerar-frases-story", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tom: filtroCat, assunto: "" }),
+    }).then(r => r.json()).then(d => {
+      let pool = d.frases || [];
+      const busca = filtroBusca.trim().toLowerCase();
+      if (busca.length >= 2) {
+        const termos = busca.split(/\s+/).filter(w => w.length > 1);
+        pool = pool.filter((f: string) => termos.some((t: string) => f.toLowerCase().includes(t)));
+      }
+      setFrases(pool);
+      if (d.hashtags) setHashtags(d.hashtags);
+    });
+  }, [filtroCat, filtroBusca, todasFrases]);
 
   function buscarPorCategoria(cat: string) { setFiltroCat(cat); setFiltroBusca(""); }
   function buscarPorTexto(txt: string) { setFiltroBusca(txt); }
@@ -533,12 +525,21 @@ export default function GeradorStory() {
               {[
                 ["todas", "Todas"],
                 ["motivacao", "🔥 Motivação"],
+                ["visao", "🚀 Visão"],
                 ["zueira", "😂 Zueira"],
+                ["resenha", "🤡 Resenha"],
+                ["indiretas", "🐍 Indiretas"],
                 ["empreendedor", "💼 Empreendedor"],
+                ["tech", "💻 Tech"],
+                ["trampo", "📱 Trampo"],
+                ["conteudo", "🎬 Conteúdo"],
                 ["romance", "❤️ Romance"],
                 ["reflexao", "🧘 Reflexão"],
+                ["curtas", "📸 Curtas"],
                 ["musicas", "🎵 Músicas"],
-                ["filmes", "🎬 Filmes"],
+                ["futebol", "⚽ Futebol"],
+                ["carro", "🏎️ Carro"],
+                ["filmes", "🎞️ Filmes"],
               ].map(([key, label]) => (
                 <button
                   key={key}
@@ -975,6 +976,16 @@ export default function GeradorStory() {
               }}
             >
               <div>
+                <label style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>Posição</label>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2px", marginTop: "2px" }}>
+                  <div /><button onClick={() => setLayer({ ...layer, y: layer.y - 20 })} style={arrowBtn}>▲</button><div />
+                  <button onClick={() => setLayer({ ...layer, x: layer.x - 20 })} style={arrowBtn}>◀</button>
+                  <span style={{ fontSize: "0.55rem", color: "var(--text-secondary)", textAlign: "center", lineHeight: "28px" }}>Mover</span>
+                  <button onClick={() => setLayer({ ...layer, x: layer.x + 20 })} style={arrowBtn}>▶</button>
+                  <div /><button onClick={() => setLayer({ ...layer, y: layer.y + 20 })} style={arrowBtn}>▼</button><div />
+                </div>
+              </div>
+              <div>
                 <label
                   style={{
                     fontSize: "0.65rem",
@@ -1283,6 +1294,12 @@ export default function GeradorStory() {
     </section>
   );
 }
+
+const arrowBtn: React.CSSProperties = {
+  padding: "4px 0", border: "1px solid var(--surface-border)", borderRadius: "6px",
+  background: "rgba(255,255,255,0.04)", color: "var(--text-secondary)",
+  fontSize: "0.7rem", cursor: "pointer", textAlign: "center", lineHeight: "24px",
+};
 
 function layerBtn(active: boolean): React.CSSProperties {
   return {

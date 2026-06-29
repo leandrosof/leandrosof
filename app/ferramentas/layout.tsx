@@ -46,7 +46,7 @@ export default function FerramentasLayout({
       <header
         style={{
           minHeight: "auto",
-          padding: "1rem 10%",
+          padding: "0.8rem 5%",
           background: "rgba(255,255,255,0.02)",
           borderBottom: "1px solid var(--surface-border)",
           backdropFilter: "blur(20px)",
@@ -57,36 +57,28 @@ export default function FerramentasLayout({
           position: "sticky",
           top: 0,
           zIndex: 100,
+          gap: "0.5rem",
         }}
       >
         <Link
           href="/"
           style={{
-            fontSize: "1.1rem",
+            fontSize: "1rem",
             fontWeight: 800,
             textDecoration: "none",
+            whiteSpace: "nowrap",
           }}
         >
           <span style={{ color: "var(--text-color)" }}>Leandro</span>
           <span style={{ color: "var(--accent-color)" }}>Silva</span>
         </Link>
-        <nav style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <Link href="/ferramentas" className="btn" style={{ fontSize: "0.85rem", padding: "7px 16px", background: "rgba(255,255,255,0.03)", border: "1px solid var(--surface-border)", color: "var(--text-secondary)" }}>
-            Ver Todas
-          </Link>
-          <Link
-            href="/"
-            className="btn"
-            style={{
-              fontSize: "0.85rem",
-              padding: "7px 16px",
-              background: "rgba(99,102,241,0.1)",
-              border: "1px solid rgba(99,102,241,0.2)",
-              color: "var(--accent-color)",
-            }}
-          >
-            ← Portfólio
-          </Link>
+        <nav style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexShrink: 0 }}>
+          <Link href="/ferramentas" className="btn" style={{
+            fontSize: "0.75rem", padding: "5px 12px", background: "rgba(255,255,255,0.03)", border: "1px solid var(--surface-border)", color: "var(--text-secondary)",
+          }}>Ver Todas</Link>
+          <Link href="/" className="btn" style={{
+            fontSize: "0.75rem", padding: "5px 12px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", color: "var(--accent-color)",
+          }}>← Portfólio</Link>
         </nav>
       </header>
 

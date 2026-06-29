@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/ferramentas/gerador-bio-instagram",
     "/ferramentas/gerador-hashtags",
     "/ferramentas/gerador-story",
+    "/ferramentas/frases",
     "/ferramentas/engajamento",
     "/ferramentas/roi",
     "/ferramentas/calculadora-freelance",
