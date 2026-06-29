@@ -10,7 +10,7 @@ export const metadata = {
     template: "%s | Leandro Silva",
   },
   description:
-    "Portfólio oficial de Leandro Silva (@leandrosof). Criador de conteúdo, Analista de Sistemas, Desenvolvedor e especialista em UX & IoT. Ferramentas gratuitas para Instagram, freelancers e criadores de conteúdo.",
+    "Portfólio oficial de Leandro Silva (@leandrosof). Criador de conteúdo, desenvolvedor e especialista em UX & IoT. +30 ferramentas gratuitas para redes sociais, finanças e devs.",
   keywords: [
     "Leandro Silva",
     "leandrosof",

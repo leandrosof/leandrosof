@@ -7,7 +7,7 @@ const phrases = [
   "Analista de Sistemas",
   "Especialista em UX & IoT",
   "Desenvolvedor de Software",
-  "Streamer de GTA RP",
+  "React & Humor",
 ];
 
 export default function TypingEffect() {

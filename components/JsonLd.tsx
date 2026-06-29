@@ -15,7 +15,6 @@ export default function JsonLd() {
         sameAs: [
           "https://www.instagram.com/leandrosof/",
           "https://www.tiktok.com/@leandro_sof",
-          "https://www.twitch.tv/leandrosof",
         ],
         address: {
           "@type": "PostalAddress",

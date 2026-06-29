@@ -49,14 +49,6 @@ export default function Header() {
           TikTok
         </a>
         <a
-          href="https://www.twitch.tv/leandrosof"
-          target="_blank"
-          rel="noreferrer"
-          className="btn btn-twitch"
-        >
-          Twitch
-        </a>
-        <a
           href="mailto:leandrosof.comercial@gmail.com"
           className="btn btn-email"
         >

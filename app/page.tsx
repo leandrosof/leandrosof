@@ -18,16 +18,20 @@ export default function Home() {
             maxWidth: "800px",
           }}
         >
-          Meu estilo de criação é dinâmico e autêntico. Acredito em mostrar a
-          realidade de forma leve, mesclando o lado focado e analítico da
-          tecnologia com o entretenimento puro e a disciplina do dia a dia.
+          Meu estilo de criação é dinâmico e autêntico. Crio Reacts e vídeos de
+          humor direto do dia a dia, misturando situações reais com aquele
+          toque de zueira que a galera ama.
+        </p>
+        <p style={{ fontSize: "0.9rem", color: "var(--accent-color)", fontWeight: 600, marginBottom: "2rem" }}>
+          🎬 Criador de conteúdo.<br />
+          📍 Onde o humor encontra a vida real.
         </p>
 
         <div className="grid-container">
           <Card
             type="creator"
-            title="🎮 Gaming & Lives"
-            description="Na Twitch e nas redes, trago a vivência de um veterano de <strong>GTA RP</strong> (com mais de 4 anos desbravando cidades como Metropole, Complexo e Nordeste), além de partidas de FIFA e interação em tempo real com a comunidade."
+            title="😂 Reacts & Humor"
+            description="Meu forte são vídeos de react e humor. Trago situações reais com aquele sarcasmo e autenticidade que faz a galera se identificar e compartilhar."
           />
           <Card
             type="creator"
@@ -37,7 +41,7 @@ export default function Home() {
           <Card
             type="creator"
             title="💪 Lifestyle Real"
-            description="A vida offline também vira conteúdo. Compartilho minha disciplina na musculação — o equilíbrio necessário para quem passa horas codando e streamando — e momentos de resenha, quase sempre acompanhado do meu cachorro, Frederico."
+            description="A vida offline também vira conteúdo. Compartilho minha disciplina na musculação — o equilíbrio necessário para quem passa horas codando — e momentos de resenha, quase sempre acompanhado do meu cachorro, Frederico."
           />
         </div>
       </section>
