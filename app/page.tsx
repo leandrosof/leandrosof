@@ -19,12 +19,8 @@ export default function Home() {
           }}
         >
           Meu estilo de criação é dinâmico e autêntico. Crio Reacts e vídeos de
-          humor direto do dia a dia, misturando situações reais com aquele
-          toque de zueira que a galera ama.
-        </p>
-        <p style={{ fontSize: "0.9rem", color: "var(--accent-color)", fontWeight: 600, marginBottom: "2rem" }}>
-          🎬 Criador de conteúdo.<br />
-          📍 Onde o humor encontra a vida real.
+          humor direto do dia a dia, misturando situações reais com aquele toque
+          de zueira que a galera ama.
         </p>
 
         <div className="grid-container">
@@ -82,7 +78,9 @@ export default function Home() {
 
       <section id="sobre">
         <h2>Sobre Leandro Silva</h2>
-        <p style={{ fontSize: "1.05rem", maxWidth: "800px", lineHeight: "1.8" }}>
+        <p
+          style={{ fontSize: "1.05rem", maxWidth: "800px", lineHeight: "1.8" }}
+        >
           Nascido em 1992 e residente em Planaltina, DF, atuo como analista de
           sistemas, desenvolvedor de software, influenciador digital e criador
           de conteúdo (@leandrosof). Sou graduado em Sistemas para Internet pelo
